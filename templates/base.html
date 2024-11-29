@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%block head%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    {%endblock%}
+</head>
+<body style="font-family: 'Rubik', sans-serif;" class="font-bold">
+    <nav class="bg-blue-600 text-white">
+        <div class="container mx-auto flex items-center justify-between py-4 px-6">
+          <!-- Logo -->
+          <a href="#" class="text-lg font-bold">MyWebsite</a>
+    
+          <!-- Navigation Links -->
+          <div class="hidden md:flex space-x-6">
+            <a href="#" class="hover:text-blue-300">Home</a>
+            <a href="#" class="hover:text-blue-300">About</a>
+            <a href="#" class="hover:text-blue-300">Services</a>
+            <a href="#" class="hover:text-blue-300">Contact</a>
+          </div>
+    
+          <!-- Mobile Menu Button -->
+          <button id="menu-button" class="md:hidden flex items-center text-white focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
+    </nav>
+    {%block content%}
+
+    {%endblock%}
+    <!-- Fullscreen Mobile Menu Overlay -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-gradient-to-r from-blue-800 via-blue-600 to-blue-800 bg-opacity-60 backdrop-blur-sm flex flex-col items-center justify-center space-y-6 text-white">
+        <button id="close-menu" class="absolute top-6 right-6 text-3xl focus:outline-none">&times;</button>
+        <a href="#" class="text-xl hover:text-blue-300 no-underline">Home</a>
+        <a href="#" class="text-xl hover:text-blue-300 no-underline">About</a>
+        <a href="#" class="text-xl hover:text-blue-300 no-underline">Services</a>
+        <a href="#" class="text-xl hover:text-blue-300 no-underline">Contact</a>
+    </div>
+    
+    {%block script%}
+    {%endblock%}
+
+    <script>
+        // JavaScript for toggling the mobile menu
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenuButton = document.getElementById('close-menu');
+    
+        menuButton.addEventListener('click', () => {
+          mobileMenu.classList.remove('hidden'); // Show the mobile menu
+        });
+    
+        closeMenuButton.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden'); // Hide the mobile menu
+        });
+      </script>
+
+</body>
+</html>
