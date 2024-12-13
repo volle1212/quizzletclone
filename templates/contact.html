@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    /* Custom pulsing shadow animation */
+    @keyframes pulseShadow {
+        0% {
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.6); /* Initial smaller yellow shadow */
+        }
+        50% {
+            box-shadow: 0 0 40px rgba(255, 255, 0, 1); /* Larger and brighter shadow */
+        }
+        100% {
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.6); /* Return to smaller yellow shadow */
+        }
+    }
+
+    .animate-pulse-shadow {
+        animation: pulseShadow 2s ease-in-out infinite; /* Apply the pulsing animation */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-10 pt-12 max-w-screen-sm">
+    <h1 class="text-4xl text-left text-blue-600 mb-8">Our Phone Numbers</h1>
+    <p class="text-lg text-gray-700 mb-6 text-left">Here are our phone numbers. You can call us if you are wondering about something:</p>
+    <div id="phone-numbers" class="text-xl font-mono text-gray-800 text-left"></div>
+    <hr class="my-8 border-t-2 border-gray-300">
+</div>
+<div class="px-10">
+    <div class="max-w-screen-sm mx-auto bg-white p-9 rounded-lg shadow-lg text-left">
+        <h1 class="text-2xl font-semibold text-left mb-4">Snap: bulle180</h1>
+        <p class="text-lg text-gray-700 text-center">
+            Leo, one of the creators of this project, is 6 feet tall, kind, and believes the gender pay gap <span title="not">should</span> be eliminated.
+            <div class="flex justify-center items-center py-12">
+                <!-- Snapcode Image with pulsing yellow shadow -->
+                <img src="/static/images/snapcode.png" alt="Snapcode" class="w-40 h-40 animate-pulse-shadow " />
+            </div>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function generatePhoneNumbers() {
+        const generateSwedishNumber = () => {
+            // Swedish phone number format: +46 7x xx xx xx
+            let phoneNumber = '+46 7'; // Start with the country code and the prefix for mobile numbers
+            for (let i = 0; i < 8; i++) {
+                phoneNumber += Math.floor(Math.random() * 10); // Generate a digit between 0-9
+                if (i === 1 || i === 3 || i === 5) {
+                    phoneNumber += ''; // Add spaces after every 2nd digit group
+                }
+            }
+            return phoneNumber;
+        }
+
+        // List of prefixes with the first letter capitalized
+        const prefixes = ['Leo', 'Vilmer', 'Chat gpt'];
+
+        // Generate 3 Swedish phone numbers with prefixes
+        const phoneNumbers = [];
+        for (let i = 0; i < 3; i++) {
+            let number = generateSwedishNumber();
+            // Format: Prefix: [two tabs] Phone number
+            phoneNumbers.push(`${prefixes[i]}: \t\t${number}`);
+        }
+
+        // Display the generated phone numbers
+        document.getElementById('phone-numbers').innerHTML = phoneNumbers.join('<br>');
+    }
+
+    // Call the function when the page loads
+    window.onload = generatePhoneNumbers;
+</script>
+{% endblock %}

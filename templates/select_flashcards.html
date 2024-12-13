@@ -1,0 +1,19 @@
+{%extends "base.html"%}
+{%block content%}
+<div class="container mx-auto max-w-md p-6">
+    <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-8">Select Flashcard Set</h1>
+
+    {% if error %}
+        <div class="text-red-600 text-lg text-center font-medium mb-4">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" action="/test_flashcards" class="bg-white shadow-md rounded-lg p-6">
+        <label for="title" class="block text-gray-700 font-medium mb-2">Enter Flashcard Set Name:</label>
+        <input type="text" id="title" name="title" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Flashcard Set Name" required>
+
+        <button type="submit" class="mt-4 w-full bg-blue-500 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">
+            Submit
+        </button>
+    </form>
+</div>
+{%endblock%}

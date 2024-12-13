@@ -1,0 +1,70 @@
+{%extends "base.html"%}
+{%block content%}
+
+<div class="flex items-center justify-center">
+    <div class="text-left">
+        <h1 class="animate text-6xl opacity-0 translate-y-5 transition-transform duration-500 ease-out text-blue-600" id="line1">QUIZLET,</h1>
+        <h1 class="animate text-6xl opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line2">BUT WORSE,</h1>
+        <h1 class="animate text-6xl opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line3">
+            BUT ALSO WITH <span class="text-blue-600">NO ADS</span> AT ALL
+        </h1>
+        <h1 class="animate text-6xl opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line4">
+            AND <span class="text-blue-600">COMPLETELY</span> FREE
+        </h1>
+
+        <!-- Thin line separator with equal margins above and below -->
+        <hr class="my-8 border-t-2 border-gray-300">
+
+        <div class="mt-20 animate opacity-0 translate-y-5 transition-transform duration-500 ease-out flex justify-start space-x-4">
+            <!-- Create Flashcards Button -->
+            <button id="loadingButton" class="px-6 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none transition-all duration-300 ease-in-out flex items-center space-x-2">
+                <span id="buttonText">Create flashcards</span>
+                <div id="loadingSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            </button>
+
+            <!-- View Flashcards Button -->
+            <a href="/view_flashcards" class="px-6 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300 focus:outline-none transition-all duration-300 ease-in-out flex items-center space-x-2">
+                <span>View Flashcards</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+
+{%block script%}
+<script>
+    // Function to animate each line
+    const animateText = () => {
+        const lines = document.querySelectorAll(".animate");
+        lines.forEach((line, index) => {
+            setTimeout(() => {
+                line.classList.remove("opacity-0", "translate-y-5");
+            }, index * 400); // Adjust timing for each line
+        });
+    };
+
+    // Call the animation function after the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", animateText);
+
+    // JavaScript to handle loading button
+    const button = document.getElementById('loadingButton');
+    const spinner = document.getElementById('loadingSpinner');
+    const buttonText = document.getElementById('buttonText');
+
+    button.addEventListener('click', () => {
+        buttonText.textContent = 'Loading...'; // Change button text
+        spinner.classList.remove('hidden');   // Show spinner
+        button.disabled = true;              // Disable button
+        button.classList.add('cursor-not-allowed', 'opacity-70'); // Styling for disabled state
+
+        // Simulate async action (e.g., form submission)
+        setTimeout(() => {
+            buttonText.textContent = 'Reload page';
+            window.location.href = "/flashcard_generator";
+            spinner.classList.add('hidden');   // Hide spinner
+            button.classList.remove('cursor-not-allowed', 'opacity-70'); // Remove disabled styling
+        }, 900); // 3-second delay for simulation
+    });
+</script>
+{%endblock%}
