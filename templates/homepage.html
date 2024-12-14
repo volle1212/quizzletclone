@@ -1,31 +1,7 @@
 {%extends "base.html"%}
-
-{%block head%}
-<style>
-    .animated-svg {
-        width: 100%;
-        height: auto;
-    }
-    
-    .animated-svg path {
-        stroke: #000; /* Define stroke color */
-        stroke-width: 2; /* Define stroke width */
-        fill: none; /* Ensure fill is none if you want to animate the stroke */
-        stroke-dasharray: 1000;
-        stroke-dashoffset: 1000;
-        transition: stroke-dashoffset 2s ease-in-out;
-    }
-    
-    .animated-svg.animate path {
-        stroke-dashoffset: 0;
-    }
-    
-</style>
-{%endblock%}
-
 {%block content%}
 
-<div class="flex flex-col lg:flex-row items-center justify-center">
+<div class="flex flex-col lg:flex-row items-center justify-center h-[80vh] mb-12">
     <div class="mx-9 text-left text-4xl lg:text-6xl lg:w-1/2">
         <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out text-blue-600" id="line1">QUIZLET,</h1>
         <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line2">BUT WORSE,</h1>
@@ -59,6 +35,21 @@
     </div>
 </div>
 
+<!-- Additional Text Section -->
+ <div class="h-min-[10rem] bg-blue-200 p-16 mb-[-50px]">
+    <div class="mx-auto text-left max-w-2xl text-lg leading-8 text-gray-700 mt-12">
+        <p class="mb-6">
+            We’re essentially a version of <span class="text-blue-600 animate-spin">Quizlet</span>, but with a few less features. However, what we offer is a completely <span class="text-blue-600 animate-spin">ad-free</span> experience, and everything is <span class="text-blue-600 animate-spin">free</span> to use—no subscriptions, no hidden fees. If you’re tired of dealing with constant interruptions from ads on other platforms, our site gives you a simple, distraction-free way to create and study flashcards.
+        </p>
+        <br>
+        <p class="mb-6">Our platform provides the core functions you need to get your studying done. You can easily create your own flashcards, categorize them, and study at your own pace. While we might not have every advanced feature out there, our goal is to keep things simple and effective. We focus on providing a <span class="text-blue-600 animate-spin">user-friendly</span> interface that lets you focus purely on learning without any unnecessary clutter or distractions.</p>
+        <p class="mb-6">Whether you’re studying for exams, learning a new language, or just improving your knowledge in a specific area, we aim to make the process as <span class="text-blue-600 animate-spin">straightforward</span> as possible. You’ll be able to organize your flashcards efficiently, track your progress, and use the platform in a way that works best for you. Plus, there’s no need to worry about ads popping up while you're in the middle of your study session.</p>
+        <p class="mb-6">We believe that learning should be <span class="text-blue-600 animate-spin">accessible</span> to everyone, and that includes offering our tools for free. Unlike other platforms that lock features behind paywalls or bombard you with ads, we keep everything open and available for anyone who wants to improve their learning experience.</p>
+        <p>If you’re looking for a simple, <span class="text-blue-600 animate-spin">free</span>, and <span class="text-blue-600 animate-spin">ad-free</span> alternative to Quizlet, we’ve got you covered. Thanks for choosing us as your learning tool. We're here to help you focus on your educational goals without any distractions.</p>
+    </div>
+ </div>
+
+
 {%endblock%}
 
 {%block script%}
@@ -72,7 +63,6 @@
             }, index * 400); // Adjust timing for each line
         });
     };
-
 
     // Call the animation functions after the DOM is fully loaded
     document.addEventListener("DOMContentLoaded", () => {
