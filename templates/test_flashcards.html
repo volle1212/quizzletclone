@@ -9,7 +9,17 @@
                 <p id="question" class="text-xl text-gray-600 mb-6">{{ flashcards[0].question }}</p>
                 <p id="answer" class="text-lg text-gray-500 mb-6 hidden">Answer: <span>{{ flashcards[0].answer }}</span></p>
                 <button id="show-answer" class="bg-blue-500 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:bg-blue-600">Show Answer</button>
+
+                <div id="controls" class="hidden mt-6 space-x-4">
+                    <button id="right" class="bg-green-500 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:bg-green-600">I Was Right</button>
+                    <button id="wrong" class="bg-red-500 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:bg-red-600">I Was Wrong</button>
+                </div>
             </div>
+        </div>
+
+        <div id="score-container" class="hidden text-center mt-12">
+            <h2 class="text-3xl font-bold text-gray-800">Your Total Score</h2>
+            <p id="score" class="text-2xl text-gray-600 mt-4">0</p>
         </div>
     {% else %}
         <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-8">Select a Flashcard Set</h1>
@@ -31,56 +41,54 @@
 </div>
 {% endblock %}
 
-    {%block script%}
+{% block script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let flashcards = {{ flashcards|tojson }};
+        let currentIndex = 0;
+        let score = 0;
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let flashcards = {{ flashcards|tojson }};
-            let currentIndex = 0;
-            let score = 0;
+        const questionEl = document.getElementById("question");
+        const answerEl = document.getElementById("answer");
+        const showAnswerBtn = document.getElementById("show-answer");
+        const controlsEl = document.getElementById("controls");
+        const rightBtn = document.getElementById("right");
+        const wrongBtn = document.getElementById("wrong");
+        const scoreContainer = document.getElementById("score-container");
+        const scoreEl = document.getElementById("score");
 
-            const questionEl = document.getElementById("question");
-            const answerEl = document.getElementById("answer");
-            const showAnswerBtn = document.getElementById("show-answer");
-            const controlsEl = document.getElementById("controls");
-            const rightBtn = document.getElementById("right");
-            const wrongBtn = document.getElementById("wrong");
-            const scoreContainer = document.getElementById("score-container");
-            const scoreEl = document.getElementById("score");
-
-            function updateFlashcard() {
-                if (currentIndex < flashcards.length) {
-                    questionEl.textContent = flashcards[currentIndex].question;
-                    answerEl.querySelector("span").textContent = flashcards[currentIndex].answer;
-                    answerEl.classList.add("hidden");
-                    showAnswerBtn.classList.remove("hidden");
-                    controlsEl.classList.add("hidden");
-                } else {
-                    document.getElementById("flashcard-container").classList.add("hidden");
-                    scoreContainer.classList.remove("hidden");
-                    scoreEl.textContent = score;
-                }
+        function updateFlashcard() {
+            if (currentIndex < flashcards.length) {
+                questionEl.textContent = flashcards[currentIndex].question;
+                answerEl.querySelector("span").textContent = flashcards[currentIndex].answer;
+                answerEl.classList.add("hidden");
+                showAnswerBtn.classList.remove("hidden");
+                controlsEl.classList.add("hidden");
+            } else {
+                document.getElementById("flashcard-container").classList.add("hidden");
+                scoreContainer.classList.remove("hidden");
+                scoreEl.textContent = score;
             }
+        }
 
-            showAnswerBtn.addEventListener("click", function () {
-                answerEl.classList.remove("hidden");
-                showAnswerBtn.classList.add("hidden");
-                controlsEl.classList.remove("hidden");
-            });
+        showAnswerBtn.addEventListener("click", function () {
+            answerEl.classList.remove("hidden");
+            showAnswerBtn.classList.add("hidden");
+            controlsEl.classList.remove("hidden");
+        });
 
-            rightBtn.addEventListener("click", function () {
-                score++;
-                currentIndex++;
-                updateFlashcard();
-            });
-
-            wrongBtn.addEventListener("click", function () {
-                currentIndex++;
-                updateFlashcard();
-            });
-
+        rightBtn.addEventListener("click", function () {
+            score++;
+            currentIndex++;
             updateFlashcard();
         });
-    </script>
-{%endblock%}
-</html>
+
+        wrongBtn.addEventListener("click", function () {
+            currentIndex++;
+            updateFlashcard();
+        });
+
+        updateFlashcard();
+    });
+</script>
+{% endblock %}

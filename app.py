@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect
 import json
 
 app = Flask(__name__)
+app.config['DEBUG'] = True
 
 # Helper function to load and save flashcards
 
