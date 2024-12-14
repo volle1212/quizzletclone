@@ -1,22 +1,44 @@
 {%extends "base.html"%}
+
+{%block head%}
+<style>
+    .animated-svg {
+        width: 100%;
+        height: auto;
+    }
+    
+    .animated-svg path {
+        stroke: #000; /* Define stroke color */
+        stroke-width: 2; /* Define stroke width */
+        fill: none; /* Ensure fill is none if you want to animate the stroke */
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        transition: stroke-dashoffset 2s ease-in-out;
+    }
+    
+    .animated-svg.animate path {
+        stroke-dashoffset: 0;
+    }
+    
+</style>
+{%endblock%}
+
 {%block content%}
 
-<div class="flex items-center justify-center">
-    <div class="mx-9 text-left text-4xl lg:text-6xl">
-
+<div class="flex flex-col lg:flex-row items-center justify-center">
+    <div class="mx-9 text-left text-4xl lg:text-6xl lg:w-1/2">
         <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out text-blue-600" id="line1">QUIZLET,</h1>
         <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line2">BUT WORSE,</h1>
         <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line3">
-            BUT ALSO WITH <span class="text-blue-600">NO ADS</span> AT ALL,
+            BUT ALSO <span class="text-blue-600">WITHOUT ADS</span>, AND...
         </h1>
-        <h1 class="animate  opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line4">
-            AND <span class="text-blue-600">COMPLETELY</span> FREE
+        <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line4">
+            <span class="text-blue-600">COMPLETELY</span> FREE
         </h1>
-
         <!-- Thin line separator with equal margins above and below -->
         <hr class="my-8 border-t-2 border-gray-300">
-
-        <div class="text-center text-lg mt-20 animate opacity-0 translate-y-5 transition-transform duration-500 ease-out flex justify-start space-x-4">
+        <p class="text-left text-lg lg:text-2xl">Just stop using quizlet. <span title="and a negative bank account">You get negative aura!</span></p>
+        <div class="text-center text-lg mt-12 animate opacity-0 translate-y-5 transition-transform duration-500 ease-out flex justify-start space-x-4">
             <!-- Create Flashcards Button -->
             <button id="loadingButton" class="px-6 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none transition-all duration-300 ease-in-out flex items-center space-x-2">
                 <span id="buttonText">Create flashcards</span>
@@ -28,6 +50,12 @@
                 <span>View Flashcards</span>
             </a>
         </div>
+    </div>
+
+    <!-- Image to be shown on larger screens -->
+    <div class="lg:w-1/4 w-1/1 lg:block hidden p-26 animate opacity-0 translate-y-5 transition-transform duration-500 ease-out">
+        <!-- Add class "animate" to start animation -->
+        <img id="quizlet-svg" src="/static/images/betterquizlet_export.svg" alt="Image description" class="w-full h-auto object-cover">
     </div>
 </div>
 
@@ -45,8 +73,12 @@
         });
     };
 
-    // Call the animation function after the DOM is fully loaded
-    document.addEventListener("DOMContentLoaded", animateText);
+
+    // Call the animation functions after the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        animateText();
+        animateSVG(); // Animate the SVG after text animation
+    });
 
     // JavaScript to handle loading button
     const button = document.getElementById('loadingButton');

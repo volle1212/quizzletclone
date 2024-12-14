@@ -17,9 +17,13 @@
             </div>
         </div>
 
-        <div id="score-container" class="hidden text-center mt-12">
+        <div id="score-container" class="hidden text-center mt-12 shadow-lg p-10 rounded-xl">
             <h2 class="text-3xl font-bold text-gray-800">Your Total Score</h2>
-            <p id="score" class="text-2xl text-gray-600 mt-4">0</p>
+            <p class="text-2xl text-gray-600 mt-4">
+                Correct: <span id="score">0</span> / Total: <span id="total-points">0</span>
+            </p>
+            <p class="text-xl text-gray-500 mt-2">Percentage: <span id="percentage">0.00%</span></p>
+            <p class="text-xl text-gray-500 mt-2">Repeated: <span id="repeated">0</span> questions</p>
         </div>
     {% else %}
         <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-8">Select a Flashcard Set</h1>
@@ -39,6 +43,17 @@
         </form>
     {% endif %}
 </div>
+
+<div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center">
+        <h2 id="modal-title" class="text-2xl font-bold text-gray-800 mb-4">Round Complete!</h2>
+        <p id="modal-message" class="text-gray-600 mb-6">Get ready for the next round with incorrect flashcards.</p>
+        <button id="modal-close" class="bg-blue-500 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-600">
+            Start Next Round
+        </button>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block script %}
@@ -47,6 +62,11 @@
         let flashcards = {{ flashcards|tojson }};
         let currentIndex = 0;
         let score = 0;
+        let totalPointsPossible = 0;
+        let repeatedCount = 0; // Track repeated questions
+        let currentRoundFlashcards = [...flashcards]; // Start with all flashcards
+        let nextRoundFlashcards = []; // To hold only the incorrect ones for the next round
+        let seenFlashcards = new Set(); // To track flashcards that have been repeated
 
         const questionEl = document.getElementById("question");
         const answerEl = document.getElementById("answer");
@@ -56,38 +76,103 @@
         const wrongBtn = document.getElementById("wrong");
         const scoreContainer = document.getElementById("score-container");
         const scoreEl = document.getElementById("score");
+        const totalPointsEl = document.getElementById("total-points");
+        const percentageEl = document.getElementById("percentage");
+        const repeatedEl = document.getElementById("repeated");
+        const modal = document.getElementById("modal");
+        const modalCloseBtn = document.getElementById("modal-close");
+        const modalTitle = document.getElementById("modal-title");
+        const modalMessage = document.getElementById("modal-message");
 
+        // Show modal with title and message
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.classList.remove("hidden");
+        }
+
+        // Hide modal
+        function hideModal() {
+            modal.classList.add("hidden");
+        }
+
+        // Update the score display
+        function updateScoreDisplay() {
+            scoreEl.textContent = score;
+            totalPointsEl.textContent = totalPointsPossible;
+            repeatedEl.textContent = repeatedCount;
+            const percentage = totalPointsPossible > 0 ? ((score / totalPointsPossible) * 100).toFixed(2) : "0.00";
+            percentageEl.textContent = percentage + "%";
+        }
+
+        // Update the current flashcard or move to the next round
         function updateFlashcard() {
-            if (currentIndex < flashcards.length) {
-                questionEl.textContent = flashcards[currentIndex].question;
-                answerEl.querySelector("span").textContent = flashcards[currentIndex].answer;
+            if (currentIndex < currentRoundFlashcards.length) {
+                // Show the next flashcard
+                const flashcard = currentRoundFlashcards[currentIndex];
+                questionEl.textContent = flashcard.question;
+                answerEl.querySelector("span").textContent = flashcard.answer;
                 answerEl.classList.add("hidden");
                 showAnswerBtn.classList.remove("hidden");
                 controlsEl.classList.add("hidden");
+
+                // Increment the total points possible
+                totalPointsPossible++;
+                updateScoreDisplay();
+            } else if (nextRoundFlashcards.length > 0) {
+                // Move to the next round with incorrect flashcards
+                showModal(
+                    "Round Complete!",
+                    `Get ready for the next round with ${nextRoundFlashcards.length} incorrect flashcards.`
+                );
+                currentRoundFlashcards = [...nextRoundFlashcards];
+                nextRoundFlashcards = [];
+                currentIndex = 0;
             } else {
+                // All flashcards correct, show final score
                 document.getElementById("flashcard-container").classList.add("hidden");
                 scoreContainer.classList.remove("hidden");
-                scoreEl.textContent = score;
+                updateScoreDisplay();
             }
         }
 
+        // Event listener for modal close button
+        modalCloseBtn.addEventListener("click", function () {
+            hideModal();
+            updateFlashcard();
+        });
+
+        // Event listener for showing the answer
         showAnswerBtn.addEventListener("click", function () {
             answerEl.classList.remove("hidden");
             showAnswerBtn.classList.add("hidden");
             controlsEl.classList.remove("hidden");
         });
 
+        // Event listener for the "I Was Right" button
         rightBtn.addEventListener("click", function () {
+            // If correct, increment score and proceed to the next flashcard
             score++;
             currentIndex++;
             updateFlashcard();
         });
 
+        // Event listener for the "I Was Wrong" button
         wrongBtn.addEventListener("click", function () {
+            const flashcard = currentRoundFlashcards[currentIndex];
+            nextRoundFlashcards.push(flashcard); // Add incorrect flashcard to the next round
+
+            // Track repeated questions
+            if (!seenFlashcards.has(flashcard.question)) {
+                repeatedCount++;
+                seenFlashcards.add(flashcard.question);
+            }
+
             currentIndex++;
             updateFlashcard();
         });
 
+        // Start the first flashcard
         updateFlashcard();
     });
 </script>

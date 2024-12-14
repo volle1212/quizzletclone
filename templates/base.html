@@ -8,42 +8,44 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-    
 </head>
-<body style="font-family: 'Rubik', sans-serif;" class="font-bold">
+<body class="font-bold flex flex-col min-h-screen" style="font-family: 'Rubik', sans-serif;">
     <nav class="bg-blue-600 text-white mb-20">
         <div class="container mx-auto flex items-center justify-between py-4 px-6">
-          <!-- Logo -->
-          <a href="/" class="text-lg font-bold">BetterQuizlet</a>
-    
-          <!-- Navigation Links -->
-          <div class="hidden md:flex space-x-6">
-            <a href="/" class="hover:text-blue-300">Home</a>
-            <a href="/about" class="hover:text-blue-300">About</a>
-            <a href="/test_flashcards" class="hover:text-blue-300">Test</a>
-            <a href="/contact" class="hover:text-blue-300">Contact</a>
-          </div>
-    
-          <!-- Mobile Menu Button -->
-          <button id="menu-button" class="md:hidden flex items-center text-white focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </button>
+            <!-- Logo -->
+            <a href="/" class="text-lg font-bold">BetterQuizlet</a>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex space-x-6">
+                <a href="/" class="hover:text-blue-300">Home</a>
+                <a href="/about" class="hover:text-blue-300">About</a>
+                <a href="/test_flashcards" class="hover:text-blue-300">Test</a>
+                <a href="/contact" class="hover:text-blue-300">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-button" class="md:hidden flex items-center text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
         </div>
     </nav>
-    {%block content%}
 
-    {%endblock%}
+    <main class="flex-grow">
+        {%block content%}
+        {%endblock%}
+    </main>
+
     <!-- Fullscreen Mobile Menu Overlay -->
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-gradient-to-r from-blue-800 via-blue-600 to-blue-800 bg-opacity-60 backdrop-blur-sm flex flex-col items-center justify-center space-y-6 text-white">
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-blue-600 backdrop-blur-sm flex flex-col items-center justify-center space-y-6 text-white">
         <button id="close-menu" class="absolute top-6 right-6 text-3xl focus:outline-none">&times;</button>
         <a href="/" class="text-xl hover:text-blue-300 no-underline">Home</a>
         <a href="/about" class="text-xl hover:text-blue-300 no-underline">About</a>
         <a href="/test_flashcards" class="text-xl hover:text-blue-300 no-underline">Test</a>
         <a href="/contact" class="text-xl hover:text-blue-300 no-underline">Contact</a>
     </div>
-    
+
     {%block script%}
     {%endblock%}
 
@@ -54,13 +56,67 @@
         const closeMenuButton = document.getElementById('close-menu');
     
         menuButton.addEventListener('click', () => {
-          mobileMenu.classList.remove('hidden'); // Show the mobile menu
+            mobileMenu.classList.remove('hidden'); // Show the mobile menu
         });
     
         closeMenuButton.addEventListener('click', () => {
-          mobileMenu.classList.add('hidden'); // Hide the mobile menu
+            mobileMenu.classList.add('hidden'); // Hide the mobile menu
         });
-      </script>
+    </script>
 
+    <!-- Footer Section -->
+    <footer class="bg-blue-600 text-white py-8 mt-12">
+      <div class="container mx-auto text-center">
+          <p class="text-sm">&copy; 2024 BetterQuizlet. All rights reserved.</p>
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+              <div>
+                  <h4 class="font-semibold">Company</h4>
+                  <a href="/about" class="hover:text-blue-300 block mt-2">About Us</a>
+                  <a href="/contact" class="hover:text-blue-300 block mt-2">Contact</a>
+                  <a href="/privacy" class="hover:text-blue-300 block mt-2">Privacy Policy</a>
+                  <a href="/terms" class="hover:text-blue-300 block mt-2">Terms of Service</a>
+              </div>
+              <div>
+                  <h4 class="font-semibold">Services</h4>
+                  <a href="/features" class="hover:text-blue-300 block mt-2">Features</a>
+                  <a href="/pricing" class="hover:text-blue-300 block mt-2">Pricing</a>
+                  <a href="/blog" class="hover:text-blue-300 block mt-2">Blog</a>
+                  <a href="/help" class="hover:text-blue-300 block mt-2">Help Center</a>
+              </div>
+              <div>
+                  <h4 class="font-semibold">Resources</h4>
+                  <a href="/tutorials" class="hover:text-blue-300 block mt-2">Tutorials</a>
+                  <a href="/guides" class="hover:text-blue-300 block mt-2">Guides</a>
+                  <a href="/faq" class="hover:text-blue-300 block mt-2">FAQ</a>
+                  <a href="/documentation" class="hover:text-blue-300 block mt-2">Documentation</a>
+              </div>
+              <div>
+                  <h4 class="font-semibold">Community</h4>
+                  <a href="/forum" class="hover:text-blue-300 block mt-2">Forum</a>
+                  <a href="/events" class="hover:text-blue-300 block mt-2">Events</a>
+                  <a href="/ambassadors" class="hover:text-blue-300 block mt-2">Ambassadors</a>
+                  <a href="/careers" class="hover:text-blue-300 block mt-2">Careers</a>
+              </div>
+              <div>
+                  <h4 class="font-semibold">Follow Us</h4>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-facebook"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-linkedin"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-youtube"></i></a>
+              </div>
+          </div>
+          <div class="mt-4">
+              <p class="text-xs">Follow us:</p>
+              <div class="flex justify-center mt-2">
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-facebook"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-linkedin"></i></a>
+                  <a href="#" class="mx-2 text-xl hover:text-blue-600"><i class="fab fa-youtube"></i></a>
+              </div>
+          </div>
+      </div>
+  </footer>  
 </body>
 </html>
