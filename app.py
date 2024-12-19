@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect
 import json
+import random
+import string
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -18,6 +20,15 @@ def load_flashcards():
     except FileNotFoundError:
         return {}
 
+def generate_random_string(length=15):
+    # Define the characters to choose from (letters and digits)
+    characters = string.ascii_letters + string.digits
+    # Randomly choose `length` characters from the defined set
+    return ''.join(random.choice(characters) for _ in range(length))
+
+# Example usage:
+random_string = generate_random_string()
+print(random_string)
 def save_flashcards(flashcards):
     with open('flashcards.json', 'w') as f:
         json.dump(flashcards, f, indent=4)
@@ -37,6 +48,7 @@ def contact():
 
 @app.route('/add_flashcard', methods=['POST'])
 def add_flashcard():
+    print(generate_random_string())
     title = request.form.get('title')
     text = request.form.get('text')
 
