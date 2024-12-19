@@ -26,7 +26,7 @@ def generate_random_string(length):
     # Randomly choose `length` characters from the defined set
     return ''.join(random.choice(characters) for _ in range(length))
 
-# Example usage:
+# Example usage: 
 def save_flashcards(flashcards):
     with open('flashcards.json', 'w') as f:
         json.dump(flashcards, f, indent=4)
@@ -46,10 +46,9 @@ def contact():
 
 @app.route('/add_flashcard', methods=['POST'])
 def add_flashcard():
-    print(generate_random_string(15))
     title = request.form.get('title')
     text = request.form.get('text')
-
+    code = generate_random_string(15)
     if title and text:
         flashcards = load_flashcards()
 
@@ -68,7 +67,7 @@ def add_flashcard():
                 flashcard_set.append({"question": question.strip(), "answer": answer.strip()})
 
         # Add the new set under the provided title
-        flashcards[title] = flashcard_set
+        flashcards[code] = {"title": f"{title}"}, flashcard_set
 
         # Save the updated flashcards to the file
         save_flashcards(flashcards)
@@ -98,7 +97,6 @@ def view_flashcards():
         if title in flashcards:
             return render_template('view_flashcards.html', title=title, flashcards=flashcards[title])
     return render_template('view_flashcards.html', error=error)
-
 
 @app.route('/test_flashcards', methods=['GET', 'POST'])
 def test_flashcards():
