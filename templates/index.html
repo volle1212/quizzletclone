@@ -1,56 +1,125 @@
-{%extends "base.html"%}
-{% block content %}
-<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
-<h1 class="text-5xl font-semibold text-center mb-4">Generate Flashcard</h1>
-<h2 class="text-1xl font-thin text-center mb-2">Write the question first and then the answer seperating the two with a = sign. When writing the next question make an enter. This is what it should look like: question=answer </h2>
-</div>
-<br>
-    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-semibold text-center mb-4">Flashcard Generator</h1>
+<script>
+    let questionCount = 1;
+
+    document.getElementById('new-question-btn').addEventListener('click', function() {
+        questionCount++;
+
+        const flashcardContainer = document.getElementById('flashcard-container');
+
+        // Create a new flashcard item
+        const flashcardItem = document.createElement('div');
+        flashcardItem.classList.add('flashcard-item');
+
+        // Create a flex container for the label and remove button
+        const flexContainer = document.createElement('div');
+        flexContainer.classList.add('flex', 'justify-between', 'items-center');
+
+        // Create label for question
+        const label = document.createElement('label');
+        label.textContent = `Question ${questionCount}`;
+        label.classList.add('block', 'mb-2', 'text-lg', 'font-medium');
+
+        // Create remove button
+        const removeButton = document.createElement('button');
+        removeButton.classList.add('remove-btn', 'text-red-500');
+        removeButton.textContent = 'Remove';
         
-        <!-- Title input -->
-        <input id="title-input" type="text" class="w-full p-4 mb-4 border border-gray-300 rounded-md" placeholder="Enter title for the flashcard set">
-        
-        <!-- Flashcard input -->
-        <textarea id="text-input" name="text" rows="6" class="w-full p-4 border border-gray-300 rounded-md" placeholder="Enter flashcards (question = answer, one per line)"></textarea>
-        
-        <button type="submit" id="save-btn" class="mt-4 w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Save Flashcards</button>
-
-        <div id="message" class="mt-4"></div>
-    </div>
-
-{%endblock%}
-{%block script%}
-    <script>
-        document.getElementById('save-btn').addEventListener('click', function(event) {
-            const title = document.getElementById('title-input').value.trim();
-            const text = document.getElementById('text-input').value.trim();
-
-            if (!title || !text) {
-                document.getElementById('message').textContent = 'Please provide both a title and flashcards.';
-                return;
-            }
-
-            // Send data to Flask backend
-            const formData = new FormData();
-            formData.append('title', title);
-            formData.append('text', text);
-
-            fetch('/add_flashcard', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('message').textContent = data.message;
-                if (data.message.includes('successfully')) {
-                    document.getElementById('title-input').value = '';
-                    document.getElementById('text-input').value = '';
-                }
-            })
-            .catch(error => {
-                document.getElementById('message').textContent = 'Error saving flashcards!';
-            });
+        // Add event listener to remove the flashcard item
+        removeButton.addEventListener('click', function() {
+            flashcardItem.remove();
         });
-    </script>
-{%endblock%}
+
+        // Append label and remove button to the flex container
+        flexContainer.appendChild(label);
+        flexContainer.appendChild(removeButton);
+
+        // Create textarea for question
+        const questionTextarea = document.createElement('textarea');
+        questionTextarea.classList.add('w-full', 'p-5', 'mb-2', 'border', 'border-gray-300', 'rounded-md');
+        questionTextarea.placeholder = "Enter Question";
+
+        // Create textarea for answer
+        const answerTextarea = document.createElement('textarea');
+        answerTextarea.classList.add('w-full', 'p-5', 'border', 'border-gray-300', 'rounded-md');
+        answerTextarea.placeholder = "Enter Answer";
+
+        // Append elements to flashcard item
+        flashcardItem.appendChild(flexContainer);
+        flashcardItem.appendChild(questionTextarea);
+        flashcardItem.appendChild(answerTextarea);
+
+        // Append flashcard item to container
+        flashcardContainer.appendChild(flashcardItem);
+    });
+
+    document.getElementById('save-btn').addEventListener('click', function(event) {
+        const title = document.getElementById('title-input').value.trim();
+        const flashcardItems = document.querySelectorAll('.flashcard-item');
+
+        if (!title || flashcardItems.length === 0) {
+            document.getElementById('message').textContent = 'Please provide a title and at least one flashcard.';
+            return;
+        }
+
+        const flashcards = [];
+        flashcardItems.forEach(item => {
+            const question = item.querySelector('textarea:nth-child(2)').value.trim();
+            const answer = item.querySelector('textarea:nth-child(3)').value.trim();
+            if (question && answer) {
+                flashcards.push({ question, answer });
+            }
+        });
+
+        if (flashcards.length === 0) {
+            document.getElementById('message').textContent = 'Please fill in at least one question and answer.';
+            return;
+        }
+
+        // Send data to Flask backend as structured data
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('flashcards', JSON.stringify(flashcards));
+
+        fetch('/add_flashcard', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('message').textContent = data.message;
+            if (data.message.includes('successfully')) {
+                document.getElementById('title-input').value = '';
+                document.getElementById('flashcard-container').innerHTML = '';
+                questionCount = 1;
+                const initialFlashcard = document.createElement('div');
+                initialFlashcard.classList.add('flashcard-item');
+                const initialFlexContainer = document.createElement('div');
+                initialFlexContainer.classList.add('flex', 'justify-between', 'items-center');
+                const initialLabel = document.createElement('label');
+                initialLabel.textContent = 'Question 1';
+                initialLabel.classList.add('block', 'mb-2', 'text-lg', 'font-medium');
+                const initialRemoveButton = document.createElement('button');
+                initialRemoveButton.classList.add('remove-btn', 'text-red-500');
+                initialRemoveButton.textContent = 'Remove';
+                initialRemoveButton.addEventListener('click', function() {
+                    initialFlashcard.remove();
+                });
+                initialFlexContainer.appendChild(initialLabel);
+                initialFlexContainer.appendChild(initialRemoveButton);
+                const initialQuestionTextarea = document.createElement('textarea');
+                initialQuestionTextarea.classList.add('w-full', 'p-5', 'mb-2', 'border', 'border-gray-300', 'rounded-md');
+                initialQuestionTextarea.placeholder = "Enter Question";
+                const initialAnswerTextarea = document.createElement('textarea');
+                initialAnswerTextarea.classList.add('w-full', 'p-5', 'border', 'border-gray-300', 'rounded-md');
+                initialAnswerTextarea.placeholder = "Enter Answer";
+                initialFlashcard.appendChild(initialFlexContainer);
+                initialFlashcard.appendChild(initialQuestionTextarea);
+                initialFlashcard.appendChild(initialAnswerTextarea);
+                document.getElementById('flashcard-container').appendChild(initialFlashcard);
+            }
+        })
+        .catch(error => {
+            document.getElementById('message').textContent = 'Error saving flashcards!';
+        });
+    });
+</script>

@@ -1,96 +1,28 @@
-{
-    "Science 101": [
-        {
-            "question": "What is the largest planet in our solar system?",
-            "answer": "Jupiter"
-        },
-        {
-            "question": "What is the chemical symbol for water?",
-            "answer": "H2O"
-        },
-        {
-            "question": "What force keeps us on the ground?",
-            "answer": "Gravity"
-        },
-        {
-            "question": "What organ pumps blood through the human body?",
-            "answer": "The heart"
-        },
-        {
-            "question": "What gas do plants use in photosynthesis?",
-            "answer": "Carbon dioxide"
-        },
-        {
-            "question": "What planet is known as the Red Planet?",
-            "answer": "Mars"
-        },
-        {
-            "question": "What is the boiling point of water in Celsius?",
-            "answer": "100 degrees"
-        },
-        {
-            "question": "What is the center of an atom called?",
-            "answer": "Nucleus"
-        },
-        {
-            "question": "What is the name of the galaxy we live in?",
-            "answer": "The Milky Way"
-        },
-        {
-            "question": "What natural satellite orbits the Earth?",
-            "answer": "The Moon"
-        },
-        {
-            "question": "What is the fastest land animal?",
-            "answer": "The cheetah"
+[
+    {
+        "fWWIty6AO6vJH8B": {
+            "title": "ghjkghjk",
+            "flashcards": [
+                {
+                    "question": "FGHJFGHJ",
+                    "answer": "FGHDJHGJF"
+                }
+            ]
         }
-    ],
-    "Math Basics": [
-        {
-            "question": "What is 2 + 2?",
-            "answer": "4"
+    },
+    {
+        "8SnloLCOYKb6bi6": {
+            "title": "afds",
+            "flashcards": [
+                {
+                    "question": "adsf",
+                    "answer": "dasf"
+                },
+                {
+                    "question": "adfs",
+                    "answer": "asfd"
+                }
+            ]
         }
-    ],
-    "sdasd": [
-        {
-            "question": "asdasd",
-            "answer": "sdfasda"
-        },
-        {
-            "question": "asdasd",
-            "answer": "sdsd"
-        }
-    ],
-    "adfaaaaaa": [
-        {
-            "question": "adsfadfs",
-            "answer": "asdfadfs"
-        }
-    ],
-    "fagsd": [
-        {
-            "question": "afds",
-            "answer": "asfd"
-        }
-    ],
-    "9AQbqsy1KAhzkSi": [
-        "asfd",
-        [
-            {
-                "question": "afsd",
-                "answer": "fsddsf"
-            }
-        ]
-    ],
-    "8rlucg2FqGcmEKu": [
-        {
-            "title": "asfd"
-        },
-        [
-            {
-                "question": "afdsadfs",
-                "answer": "asfd"
-            }
-        ]
-    ]
-}
+    }
+]
