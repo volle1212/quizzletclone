@@ -1,54 +1,120 @@
 {%extends "base.html"%}
 {%block content%}
 
-<div class="flex flex-col lg:flex-row items-center justify-center h-[87vh] mb-12">
-    <div class="mx-9 text-left text-4xl lg:text-6xl lg:w-1/2">
-        <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out text-blue-600" id="line1">QUIZLET,</h1>
-        <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line2">BUT WORSE,</h1>
-        <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line3">
-            BUT ALSO <span class="text-blue-600">WITHOUT ADS</span>, AND...
-        </h1>
-        <h1 class="animate opacity-0 translate-y-5 transition-transform duration-500 ease-out" id="line4">
-            <span class="text-blue-600">COMPLETELY</span> FREE
-        </h1>
-        <!-- Thin line separator with equal margins above and below -->
-        <hr class="my-8 border-t-2 border-gray-300">
-        <p class="text-left text-lg lg:text-2xl">Just stop using quizlet. <span title="and a negative bank account">You get negative aura!</span></p>
-        <div class="text-center text-lg mt-12 animate opacity-0 translate-y-5 transition-transform duration-500 ease-out flex justify-start space-x-4">
-            <!-- Create Flashcards Button -->
-            <button id="loadingButton" class="px-6 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none transition-all duration-300 ease-in-out flex items-center space-x-2">
-                <span id="buttonText">Create flashcards</span>
-                <div id="loadingSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            </button>
+<section class="flex items-center justify-between py-16">
+    <!-- Image on the left -->
+    <div class="flex-1">
+      <img src="/static/images/new_logo.svg" alt="Big Image" class="h-[36rem] object-cover rounded-lg ml-48">
+    </div>
+    
+    <!-- Text on the right -->
+    <div class="flex-1 text-left mr-48">
+      <h1 class="text-[7rem] font-bold">
+        Better than Quizlet
+      </h1>
+    </div>
+</section>
 
-            <!-- View Flashcards Button -->
-            <a href="/view_flashcards" class="px-6 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300 focus:outline-none transition-all duration-300 ease-in-out flex items-center space-x-2">
-                <span>View Flashcards</span>
-            </a>
+<section class="bg-[#23AFFF] ">
+    <div class="text-center text-white">
+        <h1 class="text-[7rem] font-bold">How It Works</h1>
+    </div>
+
+    <div class="grid grid-cols-3 gap-16 mx-12 p-12">
+
+        <div class="bg-white rounded-xl px-4 py-8 flex flex-col relative">
+            <div class="flex items-start">
+                <div class="text-7xl">
+                    <p>👋</p>
+                </div>
+                <div class="font-bold ml-4">
+                    <p class="text-gray-500">Step 1</p>
+                    <h1 class="text-5xl">Join</h1>
+                </div>        
+            </div>
+            <div class="text-gray-500 text-lg p-4">
+                <p>100% free to use! We welcome everyone from five-year-olds to students!</p>
+            </div>
+            <div class="w-full flex flex-col justify-center items-center mb-20">
+                <img src="/static/images/user_icon.png">
+                <p title="in our dreams 😴☁️" class="font-bold text-gray-500">1000+ users</p>
+            </div>
+            <div class="absolute bottom-[15px] left-0 w-full px-4">
+                <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
+                    Sign Up
+                </button>
+            </div>
         </div>
-    </div>
+        
 
-    <!-- Image to be shown on larger screens -->
-    <div class="lg:w-1/4 w-1/1 lg:block hidden p-26 animate opacity-0 translate-y-5 transition-transform duration-500 ease-out">
-        <!-- Add class "animate" to start animation -->
-        <img id="quizlet-svg" src="/static/images/betterquizlet_export.svg" alt="Image description" class="w-full h-auto object-cover">
-    </div>
-</div>
+        <div class="bg-white rounded-xl px-4 py-8 flex flex-col relative">
+            <div class="flex items-start">
+                <div class="text-7xl">
+                    <p>✍️</p>
+                </div>
+                <div class="font-bold ml-4">
+                    <p class="text-gray-500">Step 2</p>
+                    <h1 class="text-5xl">Study</h1>
+                </div>        
+            </div>
+            <div class="text-gray-500 text-lg p-4">
+                <p>Use our app to study in a fun and effective way!</p>
+            </div>
+            <div class="w-full flex flex-col justify-center items-center mb-20">
+                <img src="/static/images/icon_cards.png" class="h-[184px]">
+                <p title="not for you, you are screwed" class="font-bold text-gray-500">May increase IQ</p>
+            </div>
+            <div class="absolute bottom-[15px] left-0 w-full px-4">
+                <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
+                    Learn More
+                </button>
+            </div>
+        </div>
+        
 
-<!-- Additional Text Section -->
- <div class="h-min-[10rem] bg-blue-200 p-16 mb-[-50px]">
-    <div class="mx-auto text-left max-w-2xl text-lg leading-8 text-gray-700 mt-12">
-        <p class="mb-6">
-            We’re essentially a version of <span class="text-blue-600 animate-spin">Quizlet</span>, but with a few less features. However, what we offer is a completely <span class="text-blue-600 animate-spin">ad-free</span> experience, and everything is <span class="text-blue-600 animate-spin">free</span> to use—no subscriptions, no hidden fees. If you’re tired of dealing with constant interruptions from ads on other platforms, our site gives you a simple, distraction-free way to create and study flashcards.
+        <div class="bg-white rounded-xl px-4 py-8 flex flex-col relative">
+            <div class="flex items-start">
+                <div class="text-7xl">
+                    <p>🏆</p>
+                </div>
+                <div class="font-bold ml-4">
+                    <p class="text-gray-500">Step 3</p>
+                    <h1 class="text-5xl">Win</h1>
+                </div>        
+            </div>
+            <div class="text-gray-500 text-lg p-4">
+                <p>Graduate at the top of your class as a valedictorian!</p>
+            </div>
+            <div class="w-full flex flex-col justify-center items-center mb-20">
+                <img src="/static/images/hat_icon.png" class="h-[184px]">
+                <p title="surely no one hovers this (check the others)" class="font-bold text-gray-500">Surely no one reads this</p>
+            </div>
+            <div class="absolute bottom-[15px] left-0 w-full px-4">
+                <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
+                    Read Stories
+                </button>
+            </div>
+        </div>
+        
+
+    </div>
+</section>
+
+<section class="bg-white p-10">
+    <div class="">
+        <h1 class="font-bold text-8xl">
+            Completely Free
+        </h1>
+        <p class="text-4xl text-gray-500 my-12">
+            We believe that all education should be free of charge no matter what. That's why we offer our app for free!
         </p>
-        <br>
-        <p class="mb-6">Our platform provides the core functions you need to get your studying done. You can easily create your own flashcards, categorize them, and study at your own pace. While we might not have every advanced feature out there, our goal is to keep things simple and effective. We focus on providing a <span class="text-blue-600 animate-spin">user-friendly</span> interface that lets you focus purely on learning without any unnecessary clutter or distractions.</p>
-        <p class="mb-6">Whether you’re studying for exams, learning a new language, or just improving your knowledge in a specific area, we aim to make the process as <span class="text-blue-600 animate-spin">straightforward</span> as possible. You’ll be able to organize your flashcards efficiently, track your progress, and use the platform in a way that works best for you. Plus, there’s no need to worry about ads popping up while you're in the middle of your study session.</p>
-        <p class="mb-6">We believe that learning should be <span class="text-blue-600 animate-spin">accessible</span> to everyone, and that includes offering our tools for free. Unlike other platforms that lock features behind paywalls or bombard you with ads, we keep everything open and available for anyone who wants to improve their learning experience.</p>
-        <p>If you’re looking for a simple, <span class="text-blue-600 animate-spin">free</span>, and <span class="text-blue-600 animate-spin">ad-free</span> alternative to Quizlet, we’ve got you covered. Thanks for choosing us as your learning tool. We're here to help you focus on your educational goals without any distractions.</p>
     </div>
- </div>
-
+    <div class="font-bold text-xl">
+        <button class="p-4 bg-[#7eceff] rounded-xl">
+            Sign Up
+        </button>
+    </div>
+</section>
 
 {%endblock%}
 

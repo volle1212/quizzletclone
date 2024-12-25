@@ -20,7 +20,7 @@ def load_flashcards():
     except FileNotFoundError:
         return {}
 
-def generate_random_string(length):
+def generate_random_string(length=15):
     # Define the characters to choose from (letters and digits)
     characters = string.ascii_letters + string.digits
     # Randomly choose `length` characters from the defined set
@@ -52,36 +52,25 @@ def contact():
 
 @app.route('/flashcard_generator', methods=['POST'])
 def add_flashcard():
-    title = request.form.get('title')
-    flashcards_data = request.form.get('flashcards')  # Get flashcards as JSON string
+    data = request.json
+    title = data.get('title', 'Untitled')
+    flashcards = data.get('flashcards', [])
+    
+    # Create a Python file with the flashcards
+    filename = f"{title.replace(' ', '_').lower()}.py"
+    filepath = os.path.join(os.getcwd(), filename)
+    
+    with open(filepath, 'w') as file:
+        file.write(f"# Flashcard Set: {title}\n\n")
+        for index, card in enumerate(flashcards, start=1):
+            question = card.get('question', '').replace('\n', '\\n')
+            answer = card.get('answer', '').replace('\n', '\\n')
+            file.write(f"# Flashcard {index}\n")
+            file.write(f"question{index} = \"{question}\"\n")
+            file.write(f"answer{index} = \"{answer}\"\n\n")
+    
+    return jsonify({'message': 'Flashcards saved successfully!', 'file': filename}), 200
 
-    if title and flashcards_data:
-        flashcards = load_flashcards()
-
-        # Check if the title already exists
-        if title in [fc["title"] for fc in flashcards.values()]:
-            return render_template('index.html', 
-            message=f"A flashcard set with the title '{title}' already exists. Please choose a different title.", 
-            status="error"), 400
-
-        # Parse flashcards
-        flashcards_list = json.loads(flashcards_data)
-
-        # Generate a unique code
-        code = generate_random_string(15)
-
-        # Add the new flashcard set
-        flashcards[code] = {"title": title, "flashcards": flashcards_list}
-
-        # Save the updated flashcards to the file
-        save_flashcards(flashcards)
-        return render_template('index.html', 
-        message="Flashcard set saved successfully!", 
-        status="success"), 200
-
-    return render_template('index.html', 
-    message="Invalid input. Both title and flashcards are required.", 
-    status="error"), 400
 
 @app.route('/view_flashcards', methods=['GET', 'POST'])
 def view_flashcards():

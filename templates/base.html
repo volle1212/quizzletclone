@@ -8,12 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+    <style>
+        .gradient-text {
+          background: linear-gradient(to right, #009dff, #7eceff);
+          -webkit-background-clip: text;
+          color: transparent;
+        }
+      </style>
 </head>
-<body class="font-bold flex flex-col min-h-screen" style="font-family: 'Rubik', sans-serif;">
-    <nav class="bg-blue-600 text-white mb-20 h-18">
-        <div class="container mx-auto flex items-center justify-between py-4 px-6">
+<body class="flex flex-col min-h-screen" style="font-family: 'Rubik', sans-serif;">
+    <nav class="bg-white/30 backdrop-blur-md text-black h-18 text-2xl sticky top-0 rounded-xl shadow-xl">
+        <div class="container mx-auto flex items-center justify-between p-8">
             <!-- Logo -->
-            <a href="/" class="text-lg font-bold">BetterQuizlet</a>
+            <a href="/" class="font-bold"><span class="gradient-text">Better</span>Quizlet</a>
 
             <!-- Navigation Links -->
             <div class="hidden md:flex space-x-6">
