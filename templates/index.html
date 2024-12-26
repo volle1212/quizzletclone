@@ -10,7 +10,6 @@
 
         function addFlashcard() {
             const container = document.getElementById('flashcards-container');
-
             const flashcard = document.createElement('div');
             flashcard.className = 'flashcard';
             flashcard.dataset.index = flashcardCount;
@@ -34,14 +33,14 @@
             questionGroup.className = 'mb-4';
             questionGroup.innerHTML = `
                 <label class='block text-sm font-medium text-gray-700'>Question</label>
-                <textarea rows='3' class='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500' placeholder='Enter the question'></textarea>
+                <textarea rows='3' class='question-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md'></textarea>
             `;
 
             const answerGroup = document.createElement('div');
             answerGroup.className = 'mb-4';
             answerGroup.innerHTML = `
                 <label class='block text-sm font-medium text-gray-700'>Answer</label>
-                <textarea rows='3' class='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500' placeholder='Enter the answer'></textarea>
+                <textarea rows='3' class='answer-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md'></textarea>
             `;
 
             flashcard.appendChild(header);
@@ -71,8 +70,8 @@
         async function saveFlashcards() {
             const flashcards = document.querySelectorAll('.flashcard');
             const savedFlashcards = Array.from(flashcards).map((flashcard) => {
-                const question = flashcard.querySelector('textarea:nth-child(2)').value;
-                const answer = flashcard.querySelector('textarea:nth-child(4)').value;
+                const question = flashcard.querySelector('.question-input').value;
+                const answer = flashcard.querySelector('.answer-input').value;
                 return { question, answer };
             });
 
@@ -83,20 +82,53 @@
                 flashcards: savedFlashcards
             };
 
-            console.log('Saved Flashcards Dictionary:', data);
-            alert('Flashcards saved successfully! Check the console for the dictionary.');
+            // Send a POST request to the Flask backend
+            const response = await fetch('/flashcard_generator', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            console.log(result); // Log the response
+
+            // Clear inputs
+            document.getElementById('title').value = '';
+            document.querySelectorAll('.question-input').forEach(input => input.value = '');
+            document.querySelectorAll('.answer-input').forEach(input => input.value = '');
+
+            // Display success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'text-green-500 font-medium mb-4';
+            successMessage.textContent = 'Flashcards saved successfully!';
+            document.getElementById('flashcard-status').appendChild(successMessage);
+
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('tab1').click();
+        });
     </script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center py-10">
+
     <div class="w-full max-w-xl bg-white shadow-lg rounded-lg p-6">
         <h1 class="text-2xl font-bold text-center mb-6">Flashcard Generator</h1>
+
+        <!-- Flashcards status message -->
+        <div id="flashcard-status" class="mb-4"></div>
 
         <!-- Title Input -->
         <div class="mb-4">
             <label for="title" class="block text-sm font-medium text-gray-700">Flashcard Set Title</label>
             <input type="text" id="title" name="title" 
-                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" 
                    placeholder="Enter a title">
         </div>
 
@@ -107,35 +139,27 @@
                     <h2 class="text-lg font-semibold text-gray-800">Flashcard 1</h2>
                     <button class="text-red-500 font-medium hover:underline" onclick="deleteFlashcard(this.parentNode.parentNode)">Delete</button>
                 </div>
-
-                <!-- Question Input -->
                 <div class="mb-4">
-                    <label for="question" class="block text-sm font-medium text-gray-700">Question</label>
-                    <textarea id="question" name="question" rows="3" 
-                              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
-                              placeholder="Enter the question"></textarea>
+                    <label class="block text-sm font-medium text-gray-700">Question</label>
+                    <textarea class="question-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Enter the question"></textarea>
                 </div>
-
-                <!-- Answer Input -->
                 <div class="mb-4">
-                    <label for="answer" class="block text-sm font-medium text-gray-700">Answer</label>
-                    <textarea id="answer" name="answer" rows="3" 
-                              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
-                              placeholder="Enter the answer"></textarea>
+                    <label class="block text-sm font-medium text-gray-700">Answer</label>
+                    <textarea class="answer-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Enter the answer"></textarea>
                 </div>
             </div>
         </div>
 
         <!-- Add Button -->
         <div class="text-center mb-4">
-            <button onclick="addFlashcard()" class="w-full px-4 py-2 bg-blue-500 text-white font-medium rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <button onclick="addFlashcard()" class="w-full px-4 py-2 bg-blue-500 text-white font-medium rounded-md shadow-sm hover:bg-blue-600">
                 Add Flashcard
             </button>
         </div>
 
         <!-- Save Button -->
         <div class="text-center">
-            <button onclick="saveFlashcards()" class="w-full px-4 py-2 bg-green-500 text-white font-medium rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+            <button onclick="saveFlashcards()" class="w-full px-4 py-2 bg-green-500 text-white font-medium rounded-md shadow-sm hover:bg-green-600">
                 Save Flashcards
             </button>
         </div>

@@ -1,72 +1,50 @@
-{% extends "base.html" %}
-{% block script %}
-<script>
-    function toggleAnswer(id) {
-        const answer = document.getElementById(id);
-        const button = document.getElementById(`button-${id}`);
-        if (answer.style.display === "none") {
-            answer.style.display = "block";
-            button.textContent = "Hide Answer";
-        } else {
-            answer.style.display = "none";
-            button.textContent = "Show Answer";
-        }
-    }
-</script>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<div class="p-10">
-    <div class="max-w-3xl mx-auto bg-white p-9 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-semibold text-center mb-4">View Flashcard Set</h1>
-        <form action="/view_flashcards" method="POST" class="flex space-x-2">
-            <input 
-                type="text" 
-                name="title" 
-                class="w-full p-4 border border-gray-300 rounded-md" 
-                placeholder="Enter the title of the flashcard set" 
-                required
-            >
-            <button 
-                type="submit" 
-                class="w-1/2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-            >
-                View Flashcards
-            </button>
-        </form>
-        {% if error %}
-            <div class="mt-4 text-red-500">{{ error }}</div>
-        {% endif %}
-        {% if flashcards %}
-            <h2 class="mt-6 text-xl font-semibold">{{ title }}</h2>
-            <div class="mt-4 space-y-4">
-                {% for flashcard in flashcards %}
-                    <div class="bg-gray-200 p-4 rounded-lg">
-                        <p class="font-semibold">{{ flashcard['question'] }}</p>
-                        <p id="answer-{{ loop.index }}" class="text-gray-600 mt-2" style="display: none;">
-                            {{ flashcard['answer'] }}
-                        </p>
-                        <button 
-                            type="button" 
-                            id="button-{{ loop.index }}" 
-                            class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                            onclick="toggleAnswer('answer-{{ loop.index }}')"
-                        >
-                            Show Answer
-                        </button>
-                    </div>
-                {% endfor %}
-            </div>
-            <form action="/test_flashcards" method="POST" class="flex mt-10 mx-auto">
-                <input type="hidden" name="title" value="{{ title }}">
-                <button 
-                    type="submit" 
-                    class="w-[100%] bg-green-500 text-white p-2 rounded-md hover:bg-green-600">
-                    Take A Test On This Set
-                </button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div class="min-h-screen flex flex-col items-center justify-center">
+
+        <!-- Main Container -->
+        <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+            <h1 class="text-3xl font-semibold text-center text-blue-500 mb-6">Flashcard App</h1>
+
+            <!-- Flashcard Code Form -->
+            <form method="POST" class="space-y-4">
+                <div class="flex flex-col">
+                    <label for="code" class="text-lg font-medium text-gray-700">Enter Flashcard Code:</label>
+                    <input type="text" id="code" name="code" required class="mt-2 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Load Flashcards</button>
             </form>
-        {% endif %}
-    </div>
-</div>
 
-{% endblock %}
+            <!-- Flashcards Display Section -->
+            {% if flashcards %}
+                <div class="mt-6">
+                    <h2 class="text-2xl font-semibold text-center text-blue-600 mb-4">{{ flashcards['title'] }}</h2>
+                    <ul class="space-y-4">
+                        {% for card in flashcards['flashcards'] %}
+                            <li class="bg-gray-50 p-4 rounded-lg shadow-md">
+                                <p class="font-medium text-gray-800"><strong>Q:</strong> {{ card['question'] }}</p>
+                                <p class="text-gray-600"><strong>A:</strong> {{ card['answer'] }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% elif flashcards is not none %}
+                <p class="text-red-500 text-center mt-4">Invalid code entered. Please try again.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</body>
+
+</html>

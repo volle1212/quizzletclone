@@ -2,11 +2,15 @@ from flask import Flask, render_template, request, jsonify, redirect
 import json
 import random
 import string
+import os
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-# Helper function to load and save flashcards
+@app.route('/')
+def homepage():
+    # This route will render the "About Us" page
+    return render_template('homepage.html')
 
 @app.route('/about')
 def about():
@@ -20,81 +24,75 @@ def load_flashcards():
     except FileNotFoundError:
         return {}
 
+########################################################################
 def generate_random_string(length=15):
     # Define the characters to choose from (letters and digits)
     characters = string.ascii_letters + string.digits
     # Randomly choose `length` characters from the defined set
     return ''.join(random.choice(characters) for _ in range(length))
 
-def generate_random_string(length):
-    # Define the characters to choose from (letters and digits)
-    characters = string.ascii_letters + string.digits
-    # Randomly choose `length` characters from the defined set
-    return ''.join(random.choice(characters) for _ in range(length))
+def load_flashcards():
+    """Load existing flashcards from the json file."""
+    if os.path.exists('flashcards.json'):
+        with open('flashcards.json', 'r') as json_file:
+            return json.load(json_file)
+    return {}
 
-# Example usage: 
-def save_flashcards(flashcards):
-    with open('flashcards.json', 'w') as f:
-        json.dump(flashcards, f, indent=4)
-
-@app.route('/')
-def index():
-    return render_template('homepage.html')
-
-@app.route('/flashcard_generator')
+@app.route('/flashcard_generator', methods=['GET', 'POST'])
 def flashcard_generator():
+    if request.method == 'POST':
+        # Handle saving flashcards
+        title = request.json.get('title')
+        flashcards = request.json.get('flashcards')
+
+        # Generate a random 15-character code
+        random_code = generate_random_string()
+
+        # Wrap the flashcard data inside the random code
+        flashcard_data = {
+            random_code: {
+                'title': title,
+                'flashcards': flashcards
+            }
+        }
+
+        # Load existing flashcards from the JSON file
+        existing_data = load_flashcards()
+
+        # Append the new flashcard data to the existing data
+        existing_data.update(flashcard_data)
+
+        # Save the updated data back to flashcards.json
+        try:
+            with open('flashcards.json', 'w') as json_file:
+                json.dump(existing_data, json_file, indent=4)
+
+            print(flashcard_data)
+
+            return jsonify({'message': 'Flashcards saved successfully!', 'data': flashcard_data})
+
+        except Exception as e:
+            return jsonify({'message': f'Error saving flashcards: {str(e)}'}), 500
+
+    # Handle rendering the form on GET request
     return render_template('index.html')
+########################################################################
 
 @app.route('/contact')
 def contact():
     # Contact Us route
     return render_template('contact.html')
 
-@app.route('/flashcard_generator', methods=['POST'])
-def add_flashcard():
-    data = request.json
-    title = data.get('title', 'Untitled')
-    flashcards = data.get('flashcards', [])
-    
-    # Create a Python file with the flashcards
-    filename = f"{title.replace(' ', '_').lower()}.py"
-    filepath = os.path.join(os.getcwd(), filename)
-    
-    with open(filepath, 'w') as file:
-        file.write(f"# Flashcard Set: {title}\n\n")
-        for index, card in enumerate(flashcards, start=1):
-            question = card.get('question', '').replace('\n', '\\n')
-            answer = card.get('answer', '').replace('\n', '\\n')
-            file.write(f"# Flashcard {index}\n")
-            file.write(f"question{index} = \"{question}\"\n")
-            file.write(f"answer{index} = \"{answer}\"\n\n")
-    
-    return jsonify({'message': 'Flashcards saved successfully!', 'file': filename}), 200
-
-
+##########################################################################
 @app.route('/view_flashcards', methods=['GET', 'POST'])
-def view_flashcards():
+def search_flashcards():
+    flashcards_data = load_flashcards()
+    flashcards = None
     if request.method == 'POST':
-        title = request.form.get('title')
-        flashcards = load_flashcards()
-
-        # Check if the title exists
-        if title in flashcards:
-            # Redirect to a GET request with the title as a query parameter
-            return redirect(f"/view_flashcards?title={title}")
-        else:
-            # Redirect with an error message in the query string
-            return redirect("/view_flashcards?error=Flashcard set not found.")
-
-    # Handle the GET request
-    title = request.args.get('title')
-    error = request.args.get('error')
-    if title:
-        flashcards = load_flashcards()
-        if title in flashcards:
-            return render_template('view_flashcards.html', title=[0][title]["title"], flashcards=flashcards[title])
-    return render_template('view_flashcards.html', error=error)
-
+        code = request.form.get('code')
+        flashcards = flashcards_data.get(code)
+    return render_template('view_flashcards.html', flashcards=flashcards)
+#############################################################################
 @app.route('/test_flashcards', methods=['GET', 'POST'])
 def test_flashcards():
     flashcards = load_flashcards()
