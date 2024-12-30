@@ -31,15 +31,13 @@
 
             const questionGroup = document.createElement('div');
             questionGroup.className = 'mb-4';
-            questionGroup.innerHTML = `
-                <label class='block text-sm font-medium text-gray-700'>Question</label>
+            questionGroup.innerHTML = ` <label class='block text-sm font-medium text-gray-700'>Question</label>
                 <textarea rows='3' class='question-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md'></textarea>
             `;
 
             const answerGroup = document.createElement('div');
             answerGroup.className = 'mb-4';
-            answerGroup.innerHTML = `
-                <label class='block text-sm font-medium text-gray-700'>Answer</label>
+            answerGroup.innerHTML = ` <label class='block text-sm font-medium text-gray-700'>Answer</label>
                 <textarea rows='3' class='answer-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md'></textarea>
             `;
 
@@ -111,6 +109,12 @@
             }, 3000);
         }
 
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('tab1').click();
         });
@@ -119,49 +123,92 @@
 <body class="bg-gray-100 min-h-screen flex flex-col items-center py-10">
 
     <div class="w-full max-w-xl bg-white shadow-lg rounded-lg p-6">
-        <h1 class="text-2xl font-bold text-center mb-6">Flashcard Generator</h1>
-
-        <!-- Flashcards status message -->
-        <div id="flashcard-status" class="mb-4"></div>
-
-        <!-- Title Input -->
-        <div class="mb-4">
-            <label for="title" class="block text-sm font-medium text-gray-700">Flashcard Set Title</label>
-            <input type="text" id="title" name="title" 
-                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" 
-                   placeholder="Enter a title">
+        
+        <!-- Tabs -->
+        <div class="flex justify-center space-x-4 mb-6">
+            <button id="tab1" onclick="switchTab('format1')" class="px-4 py-2 text-sm font-medium text-gray-700 rounded-md border-b-2 border-transparent hover:border-gray-300">Format 1</button>
+            <button id="tab2" onclick="switchTab('format2')" class="px-4 py-2 text-sm font-medium text-gray-700 rounded-md border-b-2 border-transparent hover:border-gray-300">Format 2</button>
         </div>
 
-        <!-- Flashcards Container -->
-        <div id="flashcards-container">
-            <div class="flashcard" data-index="1">
-                <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-lg font-semibold text-gray-800">Flashcard 1</h2>
-                    <button class="text-red-500 font-medium hover:underline" onclick="deleteFlashcard(this.parentNode.parentNode)">Delete</button>
+        <!-- Title Input -->
+        <h1 class="text-2xl font-bold text-center mb-6">Flashcard Generator</h1>
+
+        <!-- Tab Content -->
+        <div id="format1" class="tab-content">
+            <!-- Flashcards status message -->
+            <div id="flashcard-status" class="mb-4"></div>
+
+            <!-- Title Input -->
+            <div class="mb-4">
+                <label for="title" class="block text-sm font-medium text-gray-700">Flashcard Set Title</label>
+                <input type="text" id="title" name="title" 
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" 
+                       placeholder="Enter a title">
+            </div>
+
+            <!-- Flashcards Container -->
+            <div id="flashcards-container">
+                <div class="flashcard" data-index="1">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-lg font-semibold text-gray-800">Flashcard 1</h2>
+                        <button class="text-red-500 font-medium hover:underline" onclick="deleteFlashcard(this.parentNode.parentNode)">Delete</button>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Question</label>
+                        <textarea class="question-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Enter the question"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Answer</label>
+                        <textarea class="answer-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Enter the answer"></textarea>
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Question</label>
-                    <textarea class="question-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Enter the question"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Answer</label>
-                    <textarea class="answer-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Enter the answer"></textarea>
-                </div>
+            </div>
+
+            <!-- Add Button -->
+            <div class="text-center mb-4">
+                <button onclick="addFlashcard()" class="w-full px-4 py-2 bg-blue-500 text-white font-medium rounded-md shadow-sm hover:bg-blue-600">
+                    Add Flashcard
+                </button>
+            </div>
+
+            <!-- Save Button -->
+            <div class="text-center">
+                <button onclick="saveFlashcards()" class="w-full px-4 py-2 bg-green-500 text-white font-medium rounded-md shadow-sm hover:bg-green-600">
+                    Save Flashcards
+                </button>
             </div>
         </div>
 
-        <!-- Add Button -->
-        <div class="text-center mb-4">
-            <button onclick="addFlashcard()" class="w-full px-4 py-2 bg-blue-500 text-white font-medium rounded-md shadow-sm hover:bg-blue-600">
-                Add Flashcard
-            </button>
-        </div>
+        <div id="format2" class="tab-content hidden">
+            <!-- Title Input for Format 2 -->
+            <div class="mb-4">
+                <label for="title2" class="block text-sm font-medium text-gray-700">Flashcard Set Title</label>
+                <input type="text" id="title2" name="title2" 
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" 
+                       placeholder="Enter a title for Format 2">
+            </div>
 
-        <!-- Save Button -->
-        <div class="text-center">
-            <button onclick="saveFlashcards()" class="w-full px-4 py-2 bg-green-500 text-white font-medium rounded-md shadow-sm hover:bg-green-600">
-                Save Flashcards
-            </button>
+            <!-- Table for Format 2 -->
+            <table class="min-w-full table-auto mt-6 border-collapse">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 text-left border-b">Question</th>
+                        <th class="px-4 py-2 text-left border-b">Answer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-4 py-2 border-b">Sample Question 1</td>
+                        <td class="px-4 py-2 border-b">Sample Answer 1</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2 border-b">Sample Question 2</td>
+                        <td class="px-4 py-2 border-b">Sample Answer 2</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Additional content for Format 2 can go here -->
         </div>
     </div>
 </body>

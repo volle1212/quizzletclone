@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ämnen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="mt-20">
+        <div class="text-center">
+            <h1 class="text-5xl font-bold">Ämnen</h1>
+        </div>
+    </div>
+    <div class="flex justify-center items-center min-h-screen px-6 justify-content:between">
+        <div class="flex flex-wrap justify-center gap-6">
+            <!-- Samhälls Kunskap -->
+            <a href="{{ url_for('So') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
+                <img src="{{ url_for('static', filename='images/Sthlm.jpg') }}" alt="Image" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                    <h1 class="text-white text-3xl font-bold">Samhälls Kunskap</h1>
+                </div>
+            </a>
+            <!-- Biologi -->
+            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
+                <img src="{{ url_for('static', filename='images/Natur.jpg') }}" alt="Image" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                    <h1 class="text-white text-3xl font-bold">Biologi</h1>
+                </div>
+            </a>
+            <!-- Idrott och Hälsa -->
+            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
+                <img src="{{ url_for('static', filename='images/Messi.webp') }}" alt="Image" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                    <h1 class="text-white text-3xl font-bold">Idrott och Hälsa</h1>
+                </div>
+            </a>
+            <!-- Spanska -->
+            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
+                <img src="{{ url_for('static', filename='images/Spain.webp') }}" alt="Image" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                    <h1 class="text-white text-3xl font-bold">Spanska</h1>
+                </div>
+            </a>
+            <!-- Franska -->
+            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
+                <img src="{{ url_for('static', filename='images/MonaLisa.webp') }}" alt="Image" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                    <h1 class="text-white text-3xl font-bold">Franska</h1>
+                </div>
+            </a>
+            <!-- Tyska -->
+            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
+                <img src="{{ url_for('static', filename='images/tyskland.jpg') }}" alt="Image" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                    <h1 class="text-white text-3xl font-bold">Tyska</h1>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -6,9 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the 3D flip effect */
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.4s;
+        }
+        .flipped {
+            transform: rotateX(180deg);
+        }
+        .flip-card-front,
+        .flip-card-back {
+            backface-visibility: hidden;
+            background-color: white;
+            border: 2px solid gray;
+            border-radius: 25px;
+        }
+        .flip-card-back {
+            transform: rotateX(180deg);
+        }
+        .hidden-card {
+            display: none;
+        }
+        </style>
+        <script>
+        let currentCardIndex = 0;
+    
+        function showCard(index) {
+            const cards = document.querySelectorAll('.flip-card');
+            cards.forEach((card, i) => {
+            card.classList.add('hidden-card');
+            if (i === index) {
+                card.classList.remove('hidden-card');
+            }
+            });
+        }
+    
+        document.addEventListener('keydown', function(event) {
+            const cards = document.querySelectorAll('.flip-card');
+            if (event.code === 'Space') {
+            event.preventDefault();
+            const currentCard = cards[currentCardIndex].querySelector('.flip-card-inner');
+            if (currentCard) {
+                currentCard.classList.toggle('flipped');
+            }
+            } else if (event.code === 'ArrowRight') {
+            currentCardIndex = (currentCardIndex + 1) % cards.length;
+            showCard(currentCardIndex);
+            } else if (event.code === 'ArrowLeft') {
+            currentCardIndex = (currentCardIndex - 1 + cards.length) % cards.length;
+            showCard(currentCardIndex);
+            }
+        });
+    
+        window.onload = () => {
+            showCard(currentCardIndex);
+        };
+    </script>
 </head>
 
-<body class="bg-gray-100 font-sans text-gray-800">
+<body>
 
     <div class="min-h-screen flex flex-col items-center justify-center">
 
@@ -24,17 +84,22 @@
                 </div>
                 <button type="submit" class="w-full py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Load Flashcards</button>
             </form>
-
+    </div>
             <!-- Flashcards Display Section -->
             {% if flashcards %}
                 <div class="mt-6">
-                    <h2 class="text-2xl font-semibold text-center text-blue-600 mb-4">{{ flashcards['title'] }}</h2>
                     <ul class="space-y-4">
                         {% for card in flashcards['flashcards'] %}
-                            <li class="bg-gray-50 p-4 rounded-lg shadow-md">
-                                <p class="font-medium text-gray-800"><strong>Q:</strong> {{ card['question'] }}</p>
-                                <p class="text-gray-600"><strong>A:</strong> {{ card['answer'] }}</p>
-                            </li>
+                        <div class="flip-card hidden-card" style="width: 985px; height: 675px;" onclick="this.querySelector('.flip-card-inner').classList.toggle('flipped')">
+                            <div class="flip-card-inner relative w-full h-full">
+                                <div class="flip-card-front absolute w-full h-full text-black flex items-center justify-center text-xl font-bold">
+                                    {{ card['question'] }}
+                                </div>
+                                <div class="flip-card-back absolute w-full h-full flex flex-col items-center justify-center text-lg">
+                                    <h1 class="text-2xl font-bold">{{ card['answer'] }}</h1>
+                                </div>
+                            </div>
+                        </div>
                         {% endfor %}
                     </ul>
                 </div>
@@ -42,9 +107,6 @@
                 <p class="text-red-500 text-center mt-4">Invalid code entered. Please try again.</p>
             {% endif %}
         </div>
-
-    </div>
-
 </body>
 
 </html>

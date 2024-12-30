@@ -12,6 +12,12 @@ def homepage():
     # This route will render the "About Us" page
     return render_template('homepage.html')
 
+@app.route('/ämnen')
+def subjects():
+    # This route will render the "About Us" page
+    return render_template('subjects.html')
+
+
 @app.route('/about')
 def about():
     # This route will render the "About Us" page
@@ -110,6 +116,13 @@ def test_flashcards():
         return render_template('test_flashcards.html', title=title, flashcards=flashcards[title])
     return render_template('select_flashcards.html', flashcards=flashcards)
 
+@app.route('/So', methods=['GET', 'POST'])
+def So():
+    flashcards_data = load_flashcards()
+    flashcards = None
+    code = "rnEcBFbSEdHYGUj"
+    flashcards = flashcards_data.get(code)
+    return render_template('So.html', flashcards=flashcards)
 
 if __name__ == '__main__':
     app.run(debug=True)
