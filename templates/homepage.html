@@ -1,28 +1,36 @@
 {%extends "base.html"%}
 {%block content%}
 
-<section class="flex items-center justify-between py-16">
-    <!-- Image on the left -->
-    <div class="flex-1">
-      <img src="/static/images/new_logo.svg" alt="Big Image" class="h-[36rem] object-cover rounded-lg ml-48">
+<section class="">
+    <div class="h-screen">
+        <div class="grid grid-cols-2 mt-24">
+            <div class="ml-[30%]">
+                <img src="/static/images/new_logo.svg" class="h-[60vh]">
+            </div>
+            <div class="mt-[25%]">
+                <h1 class="text-8xl font-bold">
+                    Better than Quizlet
+                </h1>
+                <p class="text-gray-500 text-4xl font-bold mt-6">
+                    The best study app on the market <br>today.
+                </p>
+            </div>
+        </div>
+        <div class="m-auto w-32 animate-bounce opacity-0 transition-opacity delay-1000 duration-1000">
+            <img src="/static/images/downarrow.svg" class="h-32">
+        </div> 
     </div>
     
-    <!-- Text on the right -->
-    <div class="flex-1 text-left mr-48">
-      <h1 class="text-[7rem] font-bold">
-        Better than Quizlet
-      </h1>
-    </div>
 </section>
 
-<section class="bg-[#23AFFF] ">
+<section class="bg-[#23AFFF] mt-[-10.5rem]">
     <div class="text-center text-white">
         <h1 class="text-[7rem] font-bold">How It Works</h1>
     </div>
 
     <div class="grid grid-cols-3 gap-16 mx-12 p-12">
 
-        <div class="bg-white rounded-xl px-4 py-8 flex flex-col relative">
+        <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
             <div class="flex items-start">
                 <div class="text-7xl">
                     <p>👋</p>
@@ -33,13 +41,13 @@
                 </div>        
             </div>
             <div class="text-gray-500 text-lg p-4">
-                <p>100% free to use! We welcome everyone from five-year-olds to students!</p>
+                <p>100% free to use! Join us and learn something new today!</p>
             </div>
             <div class="w-full flex flex-col justify-center items-center mb-20">
                 <img src="/static/images/user_icon.png">
                 <p title="in our dreams 😴☁️" class="font-bold text-gray-500">1000+ users</p>
             </div>
-            <div class="absolute bottom-[15px] left-0 w-full px-4">
+            <div class=" w-full px-4">
                 <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
                     Sign Up
                 </button>
@@ -47,7 +55,7 @@
         </div>
         
 
-        <div class="bg-white rounded-xl px-4 py-8 flex flex-col relative">
+        <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
             <div class="flex items-start">
                 <div class="text-7xl">
                     <p>✍️</p>
@@ -58,13 +66,13 @@
                 </div>        
             </div>
             <div class="text-gray-500 text-lg p-4">
-                <p>Use our app to study in a fun and effective way!</p>
+                <p>Use our amazing app to study in a smart and fun way!</p>
             </div>
             <div class="w-full flex flex-col justify-center items-center mb-20">
                 <img src="/static/images/icon_cards.png" class="h-[184px]">
                 <p title="not for you, you are screwed" class="font-bold text-gray-500">May increase IQ</p>
             </div>
-            <div class="absolute bottom-[15px] left-0 w-full px-4">
+            <div class="w-full px-4">
                 <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
                     Learn More
                 </button>
@@ -72,7 +80,7 @@
         </div>
         
 
-        <div class="bg-white rounded-xl px-4 py-8 flex flex-col relative">
+        <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
             <div class="flex items-start">
                 <div class="text-7xl">
                     <p>🏆</p>
@@ -83,13 +91,13 @@
                 </div>        
             </div>
             <div class="text-gray-500 text-lg p-4">
-                <p>Graduate at the top of your class as a valedictorian!</p>
+                <p>Graduate at the top as the valedictorian of your class!</p>
             </div>
             <div class="w-full flex flex-col justify-center items-center mb-20">
                 <img src="/static/images/hat_icon.png" class="h-[184px]">
                 <p title="surely no one hovers this (check the others)" class="font-bold text-gray-500">Surely no one reads this</p>
             </div>
-            <div class="absolute bottom-[15px] left-0 w-full px-4">
+            <div class="w-full px-4">
                 <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
                     Read Stories
                 </button>
@@ -100,41 +108,32 @@
     </div>
 </section>
 
-<section class="bg-white p-10">
+<section class="bg-white p-32">
     <div class="">
-        <h1 class="font-bold text-8xl">
+        <h1 class="font-bold text-8xl text-center">
             Completely Free
         </h1>
-        <p class="text-4xl text-gray-500 my-12">
+        <p class="text-4xl text-gray-500 mt-12 mx-32">
             We believe that all education should be free of charge no matter what. That's why we offer our app for free!
         </p>
+        <div class="font-bold text-xl text-center mt-16">
+            <button class="p-4 bg-[#7eceff] rounded-xl">
+                Sign Up
+            </button>
+        </div>
     </div>
-    <div class="font-bold text-xl">
-        <button class="p-4 bg-[#7eceff] rounded-xl">
-            Sign Up
-        </button>
-    </div>
+
 </section>
 
 {%endblock%}
 
 {%block script%}
-<script>
-    // Function to animate each line
-    const animateText = () => {
-        const lines = document.querySelectorAll(".animate");
-        lines.forEach((line, index) => {
-            setTimeout(() => {
-                line.classList.remove("opacity-0", "translate-y-5");
-            }, index * 400); // Adjust timing for each line
-        });
-    };
+<script>    
 
-    // Call the animation functions after the DOM is fully loaded
-    document.addEventListener("DOMContentLoaded", () => {
-        animateText();
-        animateSVG(); // Animate the SVG after text animation
-    });
+    setTimeout(() => {
+        document.querySelector('.transition-opacity').classList.add('opacity-100');
+      }, 2000);
+
 
     // JavaScript to handle loading button
     const button = document.getElementById('loadingButton');
