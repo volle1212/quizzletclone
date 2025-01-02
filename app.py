@@ -116,13 +116,21 @@ def test_flashcards():
         return render_template('test_flashcards.html', title=title, flashcards=flashcards[title])
     return render_template('select_flashcards.html', flashcards=flashcards)
 
-@app.route('/So', methods=['GET', 'POST'])
-def So():
+@app.route('/start_set/<set_id>', methods=['GET', 'POST'])
+def start_set(set_id):
     flashcards_data = load_flashcards()
     flashcards = None
-    code = "rnEcBFbSEdHYGUj"
+    code = str(set_id)
     flashcards = flashcards_data.get(code)
-    return render_template('So.html', flashcards=flashcards)
+    return render_template('flashcards/start_set.html', flashcards=flashcards, code=code)
+
+@app.route('/flashing/<set_id>' , methods=['GET', 'POST'])
+def flashing(set_id):
+    flashcards_data = load_flashcards()
+    flashcards = None
+    code = str(set_id)
+    flashcards = flashcards_data.get(code)
+    return render_template('flashcards/flashing.html', flashcards=flashcards, code=code)
 
 if __name__ == '__main__':
     app.run(debug=True)

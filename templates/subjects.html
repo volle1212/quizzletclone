@@ -1,69 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+{% block head %}
+    {{ super() }}
     <title>Ämnen</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <div class="mt-20">
-        <div class="text-center">
-            <h1 class="text-5xl font-bold">Ämnen</h1>
-        </div>
+    <style>
+        .subject-card {
+            position: relative;
+            width: 450px;
+            height: 350px;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+        .subject-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .subject-card .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, black, transparent);
+        }
+        .subject-card h1 {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.875rem;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="mt-20">
+    <div class="text-center my-5">
+        <h1 class="text-5xl font-bold">Ämnen</h1>
     </div>
-    <div class="flex justify-center items-center min-h-screen px-6 justify-content:between">
-        <div class="flex flex-wrap justify-center gap-6">
-            <!-- Samhälls Kunskap -->
-            <a href="{{ url_for('So') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
-                <img src="{{ url_for('static', filename='images/Sthlm.jpg') }}" alt="Image" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                    <h1 class="text-white text-3xl font-bold">Samhälls Kunskap</h1>
-                </div>
-            </a>
-            <!-- Biologi -->
-            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
-                <img src="{{ url_for('static', filename='images/Natur.jpg') }}" alt="Image" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                    <h1 class="text-white text-3xl font-bold">Biologi</h1>
-                </div>
-            </a>
-            <!-- Idrott och Hälsa -->
-            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
-                <img src="{{ url_for('static', filename='images/Messi.webp') }}" alt="Image" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                    <h1 class="text-white text-3xl font-bold">Idrott och Hälsa</h1>
-                </div>
-            </a>
-            <!-- Spanska -->
-            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
-                <img src="{{ url_for('static', filename='images/Spain.webp') }}" alt="Image" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                    <h1 class="text-white text-3xl font-bold">Spanska</h1>
-                </div>
-            </a>
-            <!-- Franska -->
-            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
-                <img src="{{ url_for('static', filename='images/MonaLisa.webp') }}" alt="Image" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                    <h1 class="text-white text-3xl font-bold">Franska</h1>
-                </div>
-            </a>
-            <!-- Tyska -->
-            <a href="{{ url_for('about') }}" class="relative w-[450px] h-[350px] rounded-[25px] overflow-hidden">
-                <img src="{{ url_for('static', filename='images/tyskland.jpg') }}" alt="Image" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                    <h1 class="text-white text-3xl font-bold">Tyska</h1>
-                </div>
-            </a>
-        </div>
+</div>
+<div class="flex justify-center items-center px-6">
+    <div class="flex flex-wrap justify-center gap-6">
+        <!-- Samhälls Kunskap -->
+        <a href="{{ url_for('start_set', set_id='rnEcBFbSEdHYGUj') }}" class="subject-card">
+            <img src="{{ url_for('static', filename='images/Sthlm.jpg') }}" alt="Samhälls Kunskap">
+            <div class="overlay"></div>
+            <h1>Samhälls Kunskap</h1>
+        </a>
+        <!-- Biologi -->
+        <a href="{{ url_for('start_set', set_id='biologi') }}" class="subject-card">
+            <img src="{{ url_for('static', filename='images/Natur.jpg') }}" alt="Biologi">
+            <div class="overlay"></div>
+            <h1>Biologi</h1>
+        </a>
+        <!-- Idrott och Hälsa -->
+        <a href="{{ url_for('start_set', set_id='idrott_och_halsa') }}" class="subject-card">
+            <img src="{{ url_for('static', filename='images/Messi.webp') }}" alt="Idrott och Hälsa">
+            <div class="overlay"></div>
+            <h1>Idrott och Hälsa</h1>
+        </a>
+        <!-- Spanska -->
+        <a href="{{ url_for('start_set', set_id='spanska') }}" class="subject-card">
+            <img src="{{ url_for('static', filename='images/Spain.webp') }}" alt="Spanska">
+            <div class="overlay"></div>
+            <h1>Spanska</h1>
+        </a>
+        <!-- Franska -->
+        <a href="{{ url_for('start_set', set_id='franska') }}" class="subject-card">
+            <img src="{{ url_for('static', filename='images/MonaLisa.webp') }}" alt="Franska">
+            <div class="overlay"></div>
+            <h1>Franska</h1>
+        </a>
+        <!-- Tyska -->
+        <a href="{{ url_for('start_set', set_id='tyska') }}" class="subject-card">
+            <img src="{{ url_for('static', filename='images/tyskland.jpg') }}" alt="Tyska">
+            <div class="overlay"></div>
+            <h1>Tyska</h1>
+        </a>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

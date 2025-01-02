@@ -1,111 +1,113 @@
 {%extends "base.html"%}
 {%block content%}
 
-<section class="">
-    <div class="h-screen">
-        <div class="grid grid-cols-2 mt-24">
-            <div class="ml-[30%]">
-                <img src="/static/images/new_logo.svg" class="h-[60vh]">
+<section class="min-h-screen">
+    <div class="flex items-center justify-center mt-32">
+        <div class="grid grid-cols-2 items-center">
+            <div class="flex justify-center">
+                <img src="/static/images/new_logo.svg" class="h-[64rem] md:h-[40rem] sm:h-[20rem]">
             </div>
-            <div class="mt-[25%]">
+            <div class="text-left">
                 <h1 class="text-8xl font-bold">
-                    Better than Quizlet
+                    Better than <br>Quizlet
                 </h1>
                 <p class="text-gray-500 text-4xl font-bold mt-6">
                     The best study app on the market <br>today.
                 </p>
             </div>
         </div>
-        <div class="m-auto w-32 animate-bounce opacity-0 transition-opacity delay-1000 duration-1000">
+        <div class="absolute bottom-12 w-32 animate-bounce opacity-0 transition-opacity delay-1000 duration-500"
+            onclick='document.getElementById("howItWorks").scrollIntoView({behavior: "smooth"});'>
             <img src="/static/images/downarrow.svg" class="h-32">
-        </div> 
+        </div>
     </div>
-    
 </section>
 
-<section class="bg-[#23AFFF] mt-[-10.5rem]">
+
+<section class="bg-[#23AFFF]" id="howItWorks">
     <div class="text-center text-white">
         <h1 class="text-[7rem] font-bold">How It Works</h1>
     </div>
+    <div class="flex justify-center">
+        <div class="grid grid-cols-3 gap-16 mx-12 p-12 max-w-[1500px]">
 
-    <div class="grid grid-cols-3 gap-16 mx-12 p-12">
-
-        <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
-            <div class="flex items-start">
-                <div class="text-7xl">
-                    <p>👋</p>
+            <div class="bg-white rounded-xl px-4 py-8 flex flex-col">
+                <div class="flex items-start">
+                    <div class="text-7xl">
+                        <p>👋</p>
+                    </div>
+                    <div class="font-bold ml-4">
+                        <p class="text-gray-500">Step 1</p>
+                        <h1 class="text-5xl">Join</h1>
+                    </div>
                 </div>
-                <div class="font-bold ml-4">
-                    <p class="text-gray-500">Step 1</p>
-                    <h1 class="text-5xl">Join</h1>
-                </div>        
+                <div class="text-gray-500 text-lg p-4">
+                    <p>100% free to use! Join us and learn something new today!</p>
+                </div>
+                <div class="w-full flex flex-col justify-center items-center mb-20">
+                    <img src="/static/images/user_icon.png">
+                    <p title="in our dreams 😴☁️" class="font-bold text-gray-500">1000+ users</p>
+                </div>
+                <div class=" w-full px-4">
+                    <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
+                        Sign Up
+                    </button>
+                </div>
             </div>
-            <div class="text-gray-500 text-lg p-4">
-                <p>100% free to use! Join us and learn something new today!</p>
+
+
+            <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
+                <div class="flex items-start">
+                    <div class="text-7xl">
+                        <p>✍️</p>
+                    </div>
+                    <div class="font-bold ml-4">
+                        <p class="text-gray-500">Step 2</p>
+                        <h1 class="text-5xl">Study</h1>
+                    </div>
+                </div>
+                <div class="text-gray-500 text-lg p-4">
+                    <p>Use our amazing app to study in a smart and fun way!</p>
+                </div>
+                <div class="w-full flex flex-col justify-center items-center mb-20">
+                    <img src="/static/images/icon_cards.png" class="h-[184px]">
+                    <p title="not for you, you are screwed" class="font-bold text-gray-500">May increase IQ</p>
+                </div>
+                <div class="w-full px-4">
+                    <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
+                        Learn More
+                    </button>
+                </div>
             </div>
-            <div class="w-full flex flex-col justify-center items-center mb-20">
-                <img src="/static/images/user_icon.png">
-                <p title="in our dreams 😴☁️" class="font-bold text-gray-500">1000+ users</p>
-            </div>
-            <div class=" w-full px-4">
-                <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
-                    Sign Up
-                </button>
+
+
+            <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
+                <div class="flex items-start">
+                    <div class="text-7xl">
+                        <p>🏆</p>
+                    </div>
+                    <div class="font-bold ml-4">
+                        <p class="text-gray-500">Step 3</p>
+                        <h1 class="text-5xl">Win</h1>
+                    </div>
+                </div>
+                <div class="text-gray-500 text-lg p-4">
+                    <p>Graduate at the top as the valedictorian of your class!</p>
+                </div>
+                <div class="w-full flex flex-col justify-center items-center mb-20">
+                    <img src="/static/images/hat_icon.png" class="h-[184px]">
+                    <p title="surely no one hovers this (check the others)" class="font-bold text-gray-500">Surely no
+                        one reads this</p>
+                </div>
+                <div class="w-full px-4">
+                    <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
+                        Read Stories
+                    </button>
+                </div>
             </div>
         </div>
-        
-
-        <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
-            <div class="flex items-start">
-                <div class="text-7xl">
-                    <p>✍️</p>
-                </div>
-                <div class="font-bold ml-4">
-                    <p class="text-gray-500">Step 2</p>
-                    <h1 class="text-5xl">Study</h1>
-                </div>        
-            </div>
-            <div class="text-gray-500 text-lg p-4">
-                <p>Use our amazing app to study in a smart and fun way!</p>
-            </div>
-            <div class="w-full flex flex-col justify-center items-center mb-20">
-                <img src="/static/images/icon_cards.png" class="h-[184px]">
-                <p title="not for you, you are screwed" class="font-bold text-gray-500">May increase IQ</p>
-            </div>
-            <div class="w-full px-4">
-                <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
-                    Learn More
-                </button>
-            </div>
-        </div>
-        
-
-        <div class="bg-white rounded-xl px-4 py-8 flex flex-col ">
-            <div class="flex items-start">
-                <div class="text-7xl">
-                    <p>🏆</p>
-                </div>
-                <div class="font-bold ml-4">
-                    <p class="text-gray-500">Step 3</p>
-                    <h1 class="text-5xl">Win</h1>
-                </div>        
-            </div>
-            <div class="text-gray-500 text-lg p-4">
-                <p>Graduate at the top as the valedictorian of your class!</p>
-            </div>
-            <div class="w-full flex flex-col justify-center items-center mb-20">
-                <img src="/static/images/hat_icon.png" class="h-[184px]">
-                <p title="surely no one hovers this (check the others)" class="font-bold text-gray-500">Surely no one reads this</p>
-            </div>
-            <div class="w-full px-4">
-                <button class="bg-[#23AFFF] p-4 rounded-xl text-white font-bold text-center text-xl w-full">
-                    Read Stories
-                </button>
-            </div>
-        </div>
-        
-
     </div>
+
 </section>
 
 <section class="bg-white p-32">
@@ -113,7 +115,7 @@
         <h1 class="font-bold text-8xl text-center">
             Completely Free
         </h1>
-        <p class="text-4xl text-gray-500 mt-12 mx-32">
+        <p class="text-4xl text-gray-500 mt-12 mx-[25%]">
             We believe that all education should be free of charge no matter what. That's why we offer our app for free!
         </p>
         <div class="font-bold text-xl text-center mt-16">
@@ -128,11 +130,11 @@
 {%endblock%}
 
 {%block script%}
-<script>    
+<script>
 
     setTimeout(() => {
         document.querySelector('.transition-opacity').classList.add('opacity-100');
-      }, 2000);
+    }, 1000);
 
 
     // JavaScript to handle loading button

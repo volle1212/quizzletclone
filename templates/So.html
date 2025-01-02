@@ -1,98 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flip Cards</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Custom styles for the 3D flip effect */
-    .flip-card {
-      perspective: 1000px;
-    }
-    .flip-card-inner {
-      transform-style: preserve-3d;
-      transition: transform 0.4s;
-    }
-    .flipped {
-      transform: rotateX(180deg);
-    }
-    .flip-card-front,
-    .flip-card-back {
-      backface-visibility: hidden;
-      background-color: white;
-      border: 2px solid gray;
-      border-radius: 25px;
-    }
-    .flip-card-back {
-      transform: rotateX(180deg);
-    }
-    .hidden-card {
-      display: none;
-    }
-  </style>
-  <script>
-    let currentCardIndex = 0;
-
-    function showCard(index) {
-      const cards = document.querySelectorAll('.flip-card');
-      cards.forEach((card, i) => {
-        card.classList.add('hidden-card');
-        if (i === index) {
-          card.classList.remove('hidden-card');
+{% extends "base.html" %}
+{% block head %}
+    {{ super() }}
+    <title>Flip Cards</title>
+    <style>
+        .flip-card {
+            perspective: 1000px;
         }
-      });
-      updateProgressBar(index + 1, cards.length);
-    }
-
-    function updateProgressBar(current, total) {
-      const progressBar = document.getElementById('progress-bar');
-      const progressText = document.getElementById('progress-text');
-      const progressPercent = (current / total) * 100;
-      progressBar.style.width = `${progressPercent}%`;
-      progressText.textContent = `Card ${current} of ${total}`;
-    }
-
-    document.addEventListener('keydown', function(event) {
-      const cards = document.querySelectorAll('.flip-card');
-      if (event.code === 'Space') {
-        event.preventDefault();
-        const currentCard = cards[currentCardIndex].querySelector('.flip-card-inner');
-        if (currentCard) {
-          currentCard.classList.toggle('flipped');
+        .flip-card-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.4s;
         }
-      } else if (event.code === 'ArrowRight') {
-        currentCardIndex = (currentCardIndex + 1) % cards.length;
-        showCard(currentCardIndex);
-      } else if (event.code === 'ArrowLeft') {
-        currentCardIndex = (currentCardIndex - 1 + cards.length) % cards.length;
-        showCard(currentCardIndex);
-      }
-    });
+        .flipped {
+            transform: rotateX(180deg);
+        }
+        .flip-card-front,
+        .flip-card-back {
+            backface-visibility: hidden;
+            background-color: white;
+            border: 2px solid gray;
+            border-radius: 25px;
+        }
+        .flip-card-back {
+            transform: rotateX(180deg);
+        }
+        .hidden-card {
+            display: none;
+        }
+    </style>
+{% endblock %}
 
-    window.onload = () => {
-      const cards = document.querySelectorAll('.flip-card');
-      showCard(currentCardIndex);
-      updateProgressBar(1, cards.length);
-    };
-  </script>
-</head>
-<body class="flex items-center justify-center min-h-screen bg-white">
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-50">
     {% if flashcards %}
-    <div class="mt-6 text-center w-full max-w-4xl">
-        <h2 class="text-6xl font-semibold text-center" style="color: #23AFFF;">{{ flashcards['title'] }}</h2>
+    <div class="text-center w-full max-w-4xl">
+        <h2 class="text-6xl font-semibold text-center text-blue-500">{{ flashcards['title'] }}</h2>
         <div class="w-full bg-gray-200 rounded-full h-12 mb-6 relative">
-          <div id="progress-bar" class="h-12 rounded-full" style="background-color: #23AFFF; width: 0%;"></div>
-          <span id="progress-text" class="absolute inset-0 flex items-center justify-center text-sm font-medium text-gray-700"></span>
+            <div id="progress-bar" class="h-12 rounded-full bg-blue-500" style="width: 0%;"></div>
+            <span id="progress-text" class="absolute inset-0 flex items-center justify-center text-sm font-medium text-gray-700"></span>
         </div>
         <ul class="space-y-4">
             {% for card in flashcards['flashcards'] %}
             <div class="flip-card hidden-card" style="width: 985px; height: 675px;" onclick="this.querySelector('.flip-card-inner').classList.toggle('flipped')">
                 <div class="flip-card-inner relative w-full h-full">
-                    <div class="flip-card-front absolute w-full h-full text-black flex items-center justify-center text-xl font-bold">
+                    <div class="flip-card-front absolute w-full h-full flex items-center justify-center text-xl font-bold text-black">
                         <h1 class="text-5xl font-bold">{{ card['question'] }}</h1>
                     </div>
-                    <div class="flip-card-back absolute w-full h-full flex flex-col items-center justify-center text-lg">
+                    <div class="flip-card-back absolute w-full h-full flex items-center justify-center text-lg">
                         <h1 class="text-4xl font-bold">{{ card['answer'] }}</h1>
                     </div>
                 </div>
@@ -101,7 +54,56 @@
         </ul>
     </div>
     {% elif flashcards is not none %}
-        <p class="text-red-500 text-center mt-4">Invalid code entered. Please try again.</p>
+    <p class="text-red-500 text-center mt-4">Invalid code entered. Please try again.</p>
     {% endif %}
-</body>
-</html>
+</div>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script>
+        let currentCardIndex = 0;
+
+        function showCard(index) {
+            const cards = document.querySelectorAll('.flip-card');
+            cards.forEach((card, i) => {
+                card.classList.add('hidden-card');
+                if (i === index) {
+                    card.classList.remove('hidden-card');
+                }
+            });
+            updateProgressBar(index + 1, cards.length);
+        }
+
+        function updateProgressBar(current, total) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const progressPercent = (current / total) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            progressText.textContent = `Card ${current} of ${total}`;
+        }
+
+        document.addEventListener('keydown', function(event) {
+            const cards = document.querySelectorAll('.flip-card');
+            if (event.code === 'Space') {
+                event.preventDefault();
+                const currentCard = cards[currentCardIndex].querySelector('.flip-card-inner');
+                if (currentCard) {
+                    currentCard.classList.toggle('flipped');
+                }
+            } else if (event.code === 'ArrowRight') {
+                currentCardIndex = (currentCardIndex + 1) % cards.length;
+                showCard(currentCardIndex);
+            } else if (event.code === 'ArrowLeft') {
+                currentCardIndex = (currentCardIndex - 1 + cards.length) % cards.length;
+                showCard(currentCardIndex);
+            }
+        });
+
+        window.onload = () => {
+            const cards = document.querySelectorAll('.flip-card');
+            showCard(currentCardIndex);
+            updateProgressBar(1, cards.length);
+        };
+    </script>
+{% endblock %}

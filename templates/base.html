@@ -27,12 +27,12 @@
             <div class="hidden md:flex space-x-6">
                 <a href="/" class="hover:text-blue-300">Home</a>
                 <a href="/about" class="hover:text-blue-300">About</a>
-                <a href="/test_flashcards" class="hover:text-blue-300">Test</a>
+                <a href="/ämnen" class="hover:text-blue-300">Subjects</a>
                 <a href="/contact" class="hover:text-blue-300">Contact</a>
             </div>
 
             <!-- Mobile Menu Button -->
-            <button id="menu-button" class="md:hidden flex items-center text-white focus:outline-none">
+            <button id="menu-button" class="md:hidden flex items-center text-black focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
@@ -50,7 +50,7 @@
         <button id="close-menu" class="absolute top-6 right-6 text-3xl focus:outline-none">&times;</button>
         <a href="/" class="text-xl hover:text-blue-300 no-underline">Home</a>
         <a href="/about" class="text-xl hover:text-blue-300 no-underline">About</a>
-        <a href="/test_flashcards" class="text-xl hover:text-blue-300 no-underline">Test</a>
+        <a href="/ämnen" class="text-xl hover:text-blue-300 no-underline">Subjects</a>
         <a href="/contact" class="text-xl hover:text-blue-300 no-underline">Contact</a>
     </div>
 
@@ -58,6 +58,28 @@
     {%endblock%}
 
     <script>
+        console.log("this one is extending the base.html page")
+
+        let lastScrollY = window.scrollY; // Tracks the last scroll position
+        const navbar = document.querySelector('nav'); // Select the navbar
+    
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+    
+            if (currentScrollY > lastScrollY) {
+                // Scrolling down
+                navbar.style.transform = 'translateY(-100%)'; // Hide the navbar
+            } else {
+                // Scrolling up
+                navbar.style.transform = 'translateY(0)'; // Show the navbar
+            }
+    
+            lastScrollY = currentScrollY; // Update the last scroll position
+        });
+    
+        // Set up initial CSS for smooth transitions
+        navbar.style.transition = 'transform 0.3s ease-in-out';
+        
         // JavaScript for toggling the mobile menu
         const menuButton = document.getElementById('menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
