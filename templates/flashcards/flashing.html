@@ -1,22 +1,193 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
 
-{%block content%}
+{%block head%}
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+{%endblock%}
+{% block body_class%}overflow-hidden{%endblock%}
+{% block content %}
 <div class="min-h-screen">
-    <div class="rounded-xl border-2 border-black p-12 mx-[30%] bg-gray mt-12">
+    <!-- Progress Bar -->
+    <div class="w-full bg-gray-200 h-2">
+        <div id="progress-bar" class="bg-blue-400 h-2" style="width: 0%;"></div>
+    </div>
 
-        WORK IN PROGRESS
+    <div class="rounded-xl p-12 mx-[30%] bg-gray mt-12">
+
+        <div id="flashcard-container" class="relative group perspective">
+            {% for card in flashcards['flashcards'] %}
+            <div
+                class="flashcard relative aspect-[2/1] transition-transform duration-500 transform-style-preserve-3d hidden text-4xl">
+                <!-- Front Side -->
+                <div
+                    class="absolute inset-0 bg-white border-2 border-black rounded-xl flex items-center justify-center backface-hidden p-8">
+                    <div class="fixed top-6 right-6">
+                        <p class="flashcard-number""></p>
+                    </div>
+                    <p class="font-bold">{{ card['question'] }}</p>
+                </div>
+                <!-- Back Side -->
+                <div
+                    class="absolute inset-0 bg-blue-400 border-2 border-black rounded-xl flex items-center justify-center backface-hidden rotate-x-180 p-8">
+                    <div class="fixed top-6 right-6">
+                        <p class="flashcard-number"></p>
+                    </div>
+                    <p class="text-white font-bold">{{ card['answer'] }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
         <div class="grid grid-cols-3 justify-between mt-12 text-blue-400 font-bold text-4xl bottom-6 relative">
             <div class="text-left">
-                <p>←</p>
+                <button id="prev-btn" class="focus:outline-none">←</button>
             </div>
             <div class="text-3xl text-center">
-                <p>Visa svar</p>
+                <button id="flip-btn" class="focus:outline-none">Visa svar</button>
             </div>
             <div class="text-right">
-                <p>→</p>
+                <button id="next-btn" class="focus:outline-none">→</button>
             </div>
         </div>
     </div>
-</div> 
+</div>
 
-{%endblock%}
+<style>
+    .perspective {
+        perspective: 1000px;
+    }
+
+    .transform-style-preserve-3d {
+        transform-style: preserve-3d;
+    }
+
+    .backface-hidden {
+        backface-visibility: hidden;
+    }
+
+    .rotate-x-180 {
+        transform: rotateX(180deg);
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .visible {
+        display: block;
+    }
+</style>
+
+<script>
+
+    const defaults = {
+        spread: 360,
+        ticks: 50,
+        gravity: 0,
+        decay: 0.96,
+        startVelocity: 30,
+        shapes: ["star"],
+        colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+    };
+
+    function shoot() {
+        confetti({
+            ...defaults,
+            particleCount: 80,
+            scalar: 1.2,
+            shapes: ["star"],
+        });
+
+        confetti({
+            ...defaults,
+            particleCount: 20,
+            scalar: 0.75,
+            shapes: ["circle"],
+        });
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const flashcards = document.querySelectorAll('.flashcard');
+        let currentIndex = 0;
+
+        const updateVisibility = () => {
+            flashcards.forEach((card, index) => {
+                card.classList.add('hidden');
+                card.classList.remove('visible');
+                if (index === currentIndex) {
+                    card.classList.remove('hidden');
+                    card.classList.add('visible');
+                }
+            });
+            updateProgressBar();
+        };
+
+        const flipCard = () => {
+            const currentCard = flashcards[currentIndex];
+            currentCard.classList.toggle('rotate-x-180');
+        };
+
+        const updateProgressBar = () => {
+            const progress = ((currentIndex + 1) / flashcards.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const numbers = document.querySelectorAll('.flashcard-number');
+            console.log(numbers)
+
+            numbers.forEach(item  => {
+                item.innerHTML = (currentIndex + 1);
+                console.log(item)
+            })
+
+            if (progress.toString() == "100") {
+                document.getElementById('progress-bar').classList.add("bg-green-400")
+                document.getElementById('progress-bar').classList.remove("bg-blue-400")
+                shoot();
+
+            } else {
+                document.getElementById('progress-bar').classList.remove("bg-green-400")
+                document.getElementById('progress-bar').classList.add("bg-blue-400")
+            }
+        };
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateVisibility();
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateVisibility();
+            }
+        });
+
+        document.getElementById('flip-btn').addEventListener('click', flipCard);
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft') {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateVisibility();
+                }
+            } else if (event.key === 'ArrowRight') {
+                if (currentIndex < flashcards.length - 1) {
+                    currentIndex++;
+                    updateVisibility();
+                }
+            } else if (event.key === ' ') {
+                flipCard();
+                event.preventDefault(); // Prevent page scroll on space key
+            }
+        });
+
+        document.getElementById('flashcard-container').addEventListener('click', flipCard);
+
+        updateVisibility();
+    });
+</script>
+
+{% endblock %}
